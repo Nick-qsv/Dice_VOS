@@ -7,16 +7,76 @@
 
 def Xform "Root"
 {
+    reorder nameChildren = ["Left_Die", "Right_Die"]
     rel material:binding = None (
         bindMaterialAs = "weakerThanDescendants"
     )
 
-    def "die_np_s_vf" (
+    def "Left_Die" (
         active = true
-        prepend references = @die_np_s_vf.usdz@
+        references = @die_np_s_vf.usdz@
     )
     {
         float3 xformOp:scale = (0.2, 0.2, 0.2)
+        float3 xformOp:translate = (-0.030626826, 0.060195893, -0.06301562)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "RigidBody"
+        {
+            bool gravityEnabled = 0
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState" (
+            active = false
+        )
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (0.30421805, 0.30421805, 0.30421805)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, 0.1514599, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+    }
+
+    def "Right_Die" (
+        active = true
+        references = @die_np_s_vf.usdz@
+    )
+    {
+        float3 xformOp:scale = (0.2, 0.2, 0.2)
+        float3 xformOp:translate = (0.21200702, 0.094822004, 0.047168735)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }

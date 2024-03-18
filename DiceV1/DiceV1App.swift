@@ -13,5 +13,8 @@ struct DiceV1App: App {
         WindowGroup {
             ContentView()
         }
+        ImmersiveSpace(id: "die") {
+            LeftDie()
+        }
     }
 }
