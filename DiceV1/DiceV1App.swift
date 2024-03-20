@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct DiceV1App: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-        ImmersiveSpace(id: "die") {
-            LeftDie()
-        }
+  var body: some Scene {
+    WindowGroup {
+      ContentView()
+    }.defaultSize(width: 400, height: 400)
+    ImmersiveSpace(id: "die") {
+      LeftDie()
     }
+  }
 }

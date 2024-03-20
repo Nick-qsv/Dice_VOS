@@ -17,8 +17,8 @@ def Xform "Root"
         references = @die_np_s_vf.usdz@
     )
     {
-        float3 xformOp:scale = (0.2, 0.2, 0.2)
-        float3 xformOp:translate = (-0.030626826, 0.060195893, -0.06301562)
+        float3 xformOp:scale = (0.4, 0.4, 0.4)
+        float3 xformOp:translate = (-0.03062715, 0.060195774, -1.1018509)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def RealityKitComponent "RigidBody"
@@ -38,9 +38,7 @@ def Xform "Root"
             }
         }
 
-        def RealityKitComponent "MotionState" (
-            active = false
-        )
+        def RealityKitComponent "MotionState"
         {
             uniform token info:id = "RealityKit.MotionState"
         }
@@ -75,9 +73,81 @@ def Xform "Root"
         references = @die_np_s_vf.usdz@
     )
     {
-        float3 xformOp:scale = (0.2, 0.2, 0.2)
-        float3 xformOp:translate = (0.21200702, 0.094822004, 0.047168735)
+        float3 xformOp:scale = (0.4, 0.4, 0.4)
+        float3 xformOp:translate = (0.21200702, 0.09482148, -1.4953291)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "RigidBody"
+        {
+            bool gravityEnabled = 0
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (0.30421805, 0.30421805, 0.30421805)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, 0.1514599, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+    }
+
+    def RealityKitComponent "InputTarget"
+    {
+        uniform token info:id = "RealityKit.InputTarget"
+    }
+
+    def RealityKitComponent "Collider" (
+        active = false
+    )
+    {
+        uint group = 1
+        uniform token info:id = "RealityKit.Collider"
+        uint mask = 4294967295
+        token type = "Default"
+
+        def RealityKitStruct "Shape"
+        {
+            float3 extent = (0.30347747, 0.09546971, 0.17102796)
+            token shapeType = "Box"
+
+            def RealityKitStruct "pose"
+            {
+                float3 position = (0.09069009, 0.10780093, -0.007923443)
+            }
+        }
     }
 }
 
