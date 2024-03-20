@@ -17,8 +17,9 @@ def Xform "Root"
         references = @die_np_s_vf.usdz@
     )
     {
-        float3 xformOp:scale = (0.4, 0.4, 0.4)
-        float3 xformOp:translate = (-0.03062715, 0.060195774, -1.1018509)
+        quatf xformOp:orient = (0.99999994, 0, 0, 0)
+        float3 xformOp:scale = (0.6, 0.6, 0.6)
+        float3 xformOp:translate = (-0.11164892, 0.060195796, -1.9999996)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def RealityKitComponent "RigidBody"
@@ -70,11 +71,15 @@ def Xform "Root"
 
     def "Right_Die" (
         active = true
+        customData = {
+            float3 rotationEulerHint = (0, 0, 0)
+        }
         references = @die_np_s_vf.usdz@
     )
     {
-        float3 xformOp:scale = (0.4, 0.4, 0.4)
-        float3 xformOp:translate = (0.21200702, 0.09482148, -1.4953291)
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.6, 0.6, 0.6)
+        float3 xformOp:translate = (0.36540055, 0.09482157, -1.9999986)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def RealityKitComponent "RigidBody"
