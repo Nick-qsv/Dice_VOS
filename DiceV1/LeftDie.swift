@@ -14,6 +14,9 @@ struct LeftDie: View {
   @State private var leftDieRotationTimer: Timer?
   @State private var rightDie: Entity?
   @State private var leftDie: Entity?
+  @State private var moveTimer: Timer?
+  @State private var targetPosition: SIMD3<Float>?
+
   var body: some View {
     RealityView { content in
       let floor = ModelEntity(mesh: .generatePlane(width: 50, depth: 50), materials: [OcclusionMaterial()])
@@ -56,11 +59,6 @@ struct LeftDie: View {
 
   func configureDie(_ die: Entity) {
     die.generateCollisionShapes(recursive: false)
-    die.components[PhysicsBodyComponent.self] = .init(PhysicsBodyComponent(
-      massProperties: .init(mass: 0.5),
-      material: .generate(staticFriction: 1.2, dynamicFriction: 0.5, restitution: 0.5),
-      mode: .dynamic
-    ))
   }
 
   func handleDrag(value: EntityTargetValue<DragGesture.Value>) {
@@ -76,19 +74,37 @@ struct LeftDie: View {
     // Apply the new position to the dragged die
     draggedDie.position = newPosition
     draggedDie.components[PhysicsBodyComponent.self]?.mode = .kinematic
-    // Move the other die by the same amount
-    if draggedDie == rightDie {
-      leftDie.position = newPosition + offset
-      leftDie.components[PhysicsBodyComponent.self]?.mode = .kinematic
-      startRotatingEntity(leftDie, &leftDieRotationTimer)
-      startRotatingEntity(draggedDie, &rightDieRotationTimer)
 
-    } else if draggedDie == leftDie {
-      rightDie.position = newPosition + offset
-      rightDie.components[PhysicsBodyComponent.self]?.mode = .kinematic
-      startRotatingEntity(draggedDie, &leftDieRotationTimer)
-      startRotatingEntity(rightDie, &rightDieRotationTimer)
+    // NEW
+    let nonDraggedDie = draggedDie == rightDie ? leftDie : rightDie
+    targetPosition = newPosition + (draggedDie == rightDie ? offset : -offset)
+    nonDraggedDie.components[PhysicsBodyComponent.self]?.mode = .kinematic
+
+    // Move the other die gradually towards the target position
+    moveTimer?.invalidate() // Invalidate the existing timer if any
+    moveTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { timer in
+      // Gradually move the non-dragged die towards the target position
+      let currentPos = nonDraggedDie.position
+      let movementSpeed: Float = 0.1 // Adjust the speed as needed
+      let newPos = currentPos + (targetPosition! - currentPos) * movementSpeed
+
+      // Update the position of the non-dragged die
+      nonDraggedDie.position = newPos
+
+      // Stop the timer if the target position is reached approximately
+      if simd_distance(currentPos, targetPosition!) < 0.3 { // 0.05 is the threshold, adjust as needed
+        nonDraggedDie.position = targetPosition! // Snap to the exact target position
+//            nonDraggedDie.components[PhysicsBodyComponent.self]?.mode = .dynamic
+        timer.invalidate()
+      }
     }
+    startRotatingEntity(nonDraggedDie, &leftDieRotationTimer)
+    startRotatingEntity(draggedDie, &rightDieRotationTimer)
+  }
+
+  // Helper function to calculate the distance between two points
+  func distance(_ primary: SIMD3<Float>, _ secondary: SIMD3<Float>) -> Float {
+    return simd_length(secondary - primary)
   }
 
   func handleDragEnd(value: EntityTargetValue<DragGesture.Value>) {
@@ -101,7 +117,7 @@ struct LeftDie: View {
 
   private func startRotatingEntity(_ entity: Entity, _ timer: inout Timer?) {
     guard timer == nil else { return }
-    let rotationSpeed = Float.pi / 60 // Adjust this for faster or slower rotation
+    let rotationSpeed = Float.pi / 90 // Adjust this for faster or slower rotation
 
     // Create a slightly random rotation axis each time
     let randomComponent = Float.random(in: -0.2 ... 0.2) // Small random addition
@@ -109,7 +125,7 @@ struct LeftDie: View {
     let randomAxis = baseAxis + SIMD3<Float>(randomComponent, randomComponent, randomComponent)
 //    let normalizedAxis = simd_normalize(randomAxis) // Normalize the axis
 
-    timer = Timer.scheduledTimer(withTimeInterval: 1 / 60, repeats: true) { _ in
+    timer = Timer.scheduledTimer(withTimeInterval: 1 / 120, repeats: true) { _ in
       var rotation = simd_quatf(angle: rotationSpeed, axis: randomAxis) // Spin around all axes
       rotation = simd_normalize(rotation) // Normalize the quaternion
       entity.orientation = simd_mul(entity.orientation, rotation)

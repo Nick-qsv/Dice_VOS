@@ -7,127 +7,10 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["Left_Die", "Right_Die"]
+    reorder nameChildren = ["InputTarget", "Collider", "Right_Die", "Left_Die"]
     rel material:binding = None (
         bindMaterialAs = "weakerThanDescendants"
     )
-
-    def "Left_Die" (
-        active = true
-        references = @die_np_s_vf.usdz@
-    )
-    {
-        quatf xformOp:orient = (0.99999994, 0, 0, 0)
-        float3 xformOp:scale = (0.6, 0.6, 0.6)
-        float3 xformOp:translate = (-0.11164892, 0.060195796, -1.9999996)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-        def RealityKitComponent "RigidBody"
-        {
-            bool gravityEnabled = 0
-            uniform token info:id = "RealityKit.RigidBody"
-
-            def RealityKitStruct "massFrame"
-            {
-                def RealityKitStruct "m_pose"
-                {
-                }
-            }
-
-            def RealityKitStruct "material"
-            {
-            }
-        }
-
-        def RealityKitComponent "MotionState"
-        {
-            uniform token info:id = "RealityKit.MotionState"
-        }
-
-        def RealityKitComponent "Collider"
-        {
-            uint group = 1
-            uniform token info:id = "RealityKit.Collider"
-            uint mask = 4294967295
-            token type = "Default"
-
-            def RealityKitStruct "Shape"
-            {
-                float3 extent = (0.30421805, 0.30421805, 0.30421805)
-                token shapeType = "Box"
-
-                def RealityKitStruct "pose"
-                {
-                    float3 position = (0, 0.1514599, 0)
-                }
-            }
-        }
-
-        def RealityKitComponent "InputTarget"
-        {
-            uniform token info:id = "RealityKit.InputTarget"
-        }
-    }
-
-    def "Right_Die" (
-        active = true
-        customData = {
-            float3 rotationEulerHint = (0, 0, 0)
-        }
-        references = @die_np_s_vf.usdz@
-    )
-    {
-        quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (0.6, 0.6, 0.6)
-        float3 xformOp:translate = (0.36540055, 0.09482157, -1.9999986)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-        def RealityKitComponent "RigidBody"
-        {
-            bool gravityEnabled = 0
-            uniform token info:id = "RealityKit.RigidBody"
-
-            def RealityKitStruct "massFrame"
-            {
-                def RealityKitStruct "m_pose"
-                {
-                }
-            }
-
-            def RealityKitStruct "material"
-            {
-            }
-        }
-
-        def RealityKitComponent "MotionState"
-        {
-            uniform token info:id = "RealityKit.MotionState"
-        }
-
-        def RealityKitComponent "Collider"
-        {
-            uint group = 1
-            uniform token info:id = "RealityKit.Collider"
-            uint mask = 4294967295
-            token type = "Default"
-
-            def RealityKitStruct "Shape"
-            {
-                float3 extent = (0.30421805, 0.30421805, 0.30421805)
-                token shapeType = "Box"
-
-                def RealityKitStruct "pose"
-                {
-                    float3 position = (0, 0.1514599, 0)
-                }
-            }
-        }
-
-        def RealityKitComponent "InputTarget"
-        {
-            uniform token info:id = "RealityKit.InputTarget"
-        }
-    }
 
     def RealityKitComponent "InputTarget"
     {
@@ -151,6 +34,130 @@ def Xform "Root"
             def RealityKitStruct "pose"
             {
                 float3 position = (0.09069009, 0.10780093, -0.007923443)
+            }
+        }
+    }
+
+    def "Right_Die" (
+        active = true
+        references = @die_new_vf.usdz@
+    )
+    {
+        float3 xformOp:scale = (0.5, 0.5, 0.5)
+        float3 xformOp:translate = (0.07467333, 0.084629565, -2.1609793)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+                double dynamicFriction = 0.6
+                double restitution = 0.8
+                double staticFriction = 0.5
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (0.30421805, 0.30421805, 0.30421805)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (-0.00007906556, 0.00018909574, 0.000020116568)
+                }
+            }
+        }
+    }
+
+    def "Left_Die" (
+        active = true
+        references = @die_new_vf.usdz@
+    )
+    {
+        float3 xformOp:scale = (0.5, 0.5, 0.5)
+        float3 xformOp:translate = (-0.20045829, 0.08462928, -2.0697856)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+                double dynamicFriction = 0.6
+                double restitution = 0.8
+                double staticFriction = 0.5
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (0.30421805, 0.30421805, 0.30421805)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (-0.00007906556, 0.00018909574, 0.000020116568)
+                }
+            }
+        }
+
+        over "Materials"
+        {
+            over "Material"
+            {
+                token outputs:surface.connect = </Root/Left_Die/Materials/Material/surfaceShader.outputs:surface>
             }
         }
     }
