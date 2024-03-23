@@ -15,10 +15,17 @@ struct ContentView: View {
 
   @Environment(\.openImmersiveSpace) var openImmersiveSpace
   @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
+  var diceData: DiceData
 
   var body: some View {
     VStack {
-      Text("Roll the Dice!")
+      Text(
+        diceData.rolledNumLeft == 0 || diceData
+          .rolledNumRight == 0 ? "Hi" : "\(diceData.rolledNumLeft) & \(diceData.rolledNumRight)"
+      )
+      .foregroundStyle(.green)
+      .font(.custom("Menlo", size: 100))
+      .bold()
       Toggle("Show Immersive Space", isOn: $showImmersiveSpace)
         .toggleStyle(.button)
         .padding(.top, 50)
@@ -50,5 +57,5 @@ struct ContentView: View {
 }
 
 #Preview(windowStyle: .automatic) {
-  ContentView()
+  ContentView(diceData: DiceData())
 }

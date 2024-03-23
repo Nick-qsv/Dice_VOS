@@ -9,13 +9,22 @@ import RealityKit
 import RealityKitContent
 import SwiftUI
 
+let diceMap = [
+  // + | -
+  [4, 6], /// X
+  [5, 3], // Y
+  [2, 1], // Z
+]
+
 struct LeftDie: View {
+  var diceData: DiceData
   @State private var rightDieRotationTimer: Timer?
   @State private var leftDieRotationTimer: Timer?
   @State private var rightDie: Entity?
   @State private var leftDie: Entity?
   @State private var moveTimer: Timer?
   @State private var targetPosition: SIMD3<Float>?
+  @State private var droppedDice = false
 
   var body: some View {
     RealityView { content in
@@ -47,6 +56,39 @@ struct LeftDie: View {
         }
       } else {
         print("Failed to load Scene")
+      }
+      let _ = content.subscribe(to: SceneEvents.Update.self) { _ in
+        guard droppedDice else { return }
+        guard let leftMotion = leftDie!.components[PhysicsMotionComponent.self] else { return }
+        guard let rightMotion = rightDie!.components[PhysicsMotionComponent.self] else { return }
+
+        if simd_length(leftMotion.linearVelocity) < 0.1 && simd_length(leftMotion.angularVelocity) < 0.1 &&
+          simd_length(rightMotion.linearVelocity) < 0.1 && simd_length(rightMotion.angularVelocity) < 0.1
+        {
+          let xDirection = leftDie!.convert(direction: SIMD3(x: 1, y: 0, z: 0), to: nil)
+          let yDirection = leftDie!.convert(direction: SIMD3(x: 0, y: 1, z: 0), to: nil)
+          let zDirection = leftDie!.convert(direction: SIMD3(x: 0, y: 0, z: 1), to: nil)
+          let greatestDirection = [
+            0: xDirection.y,
+            1: yDirection.y,
+            2: zDirection.y
+          ].sorted(by: { abs($0.1) > abs($1.1) })[0]
+          diceData.rolledNumLeft = diceMap[greatestDirection.key][greatestDirection.value > 0 ? 0 : 1]
+
+          let xDirectionR = rightDie!.convert(direction: SIMD3(x: 1, y: 0, z: 0), to: nil)
+          let yDirectionR = rightDie!.convert(direction: SIMD3(x: 0, y: 1, z: 0), to: nil)
+          let zDirectionR = rightDie!.convert(direction: SIMD3(x: 0, y: 0, z: 1), to: nil)
+          let greatestDirectionR = [
+            0: xDirectionR.y,
+            1: yDirectionR.y,
+            2: zDirectionR.y
+          ].sorted(by: { abs($0.1) > abs($1.1) })[0]
+          diceData.rolledNumRight = diceMap[greatestDirectionR.key][greatestDirectionR.value > 0 ? 0 : 1]
+          print(
+            "\(diceData.rolledNumRight) rolled"
+          )
+          droppedDice = false
+        }
       }
     }
     .gesture(
@@ -113,6 +155,11 @@ struct LeftDie: View {
 
     stopRotatingEntity(&rightDieRotationTimer)
     stopRotatingEntity(&leftDieRotationTimer)
+    if !droppedDice {
+      Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+        droppedDice = true
+      }
+    }
   }
 
   private func startRotatingEntity(_ entity: Entity, _ timer: inout Timer?) {
@@ -140,5 +187,5 @@ struct LeftDie: View {
 }
 
 #Preview {
-  LeftDie()
+  LeftDie(diceData: DiceData())
 }
