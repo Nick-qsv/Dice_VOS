@@ -20,8 +20,7 @@ struct ContentView: View {
   var body: some View {
     VStack {
       Text(
-        diceData.rolledNumLeft == 0 || diceData
-          .rolledNumRight == 0 ? "Hi" : "\(diceData.rolledNumLeft) & \(diceData.rolledNumRight)"
+        !diceData.rolled ? "Roll the Dice!" : "\(diceData.rolledNumLeft) & \(diceData.rolledNumRight)"
       )
       .foregroundStyle(.green)
       .font(.custom("Menlo", size: 100))
@@ -50,6 +49,7 @@ struct ContentView: View {
           print("Attempting to dismiss immersive space")
           await dismissImmersiveSpace()
           immersiveSpaceIsShown = false
+          diceData.rolled = false
         }
       }
     }

@@ -11,6 +11,7 @@ import SwiftUI
 class DiceData {
   var rolledNumLeft = 0
   var rolledNumRight = 0
+  var rolled = false
 }
 
 @main
@@ -19,7 +20,7 @@ struct DiceV1App: App {
   var body: some Scene {
     WindowGroup {
       ContentView(diceData: diceData)
-    }.defaultSize(width: 400, height: 400)
+    }.defaultSize(width: 1200, height: 500)
     ImmersiveSpace(id: "die") {
       LeftDie(diceData: diceData)
     }

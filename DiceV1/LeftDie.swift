@@ -62,9 +62,18 @@ struct LeftDie: View {
       }
       _ = content.subscribe(to: SceneEvents.Update.self) { _ in
         guard droppedDice else { return }
+        let motionLeft = leftDie!.components[PhysicsMotionComponent.self]
+        let motionRight = rightDie!.components[PhysicsMotionComponent.self]
+        guard
+          simd_length(motionLeft!.linearVelocity) < 0.01,
+          simd_length(motionRight!.linearVelocity) < 0.01,
+          simd_length(motionLeft!.angularVelocity) < 0.01,
+          simd_length(motionRight!.angularVelocity) < 0.01
+        else { return }
         print("Updating die state")
         updateDieState(leftDie!, isLeft: true)
         updateDieState(rightDie!, isLeft: false)
+        diceData.rolled = true
       }
       _ = content.subscribe(to: SceneEvents.Update.self) { _ in
         guard chasing, let nonDraggedDie = nonDraggedDie, let targetPosition = targetPosition else { return }
@@ -93,27 +102,27 @@ struct LeftDie: View {
   }
 
   private func updateDieState(_ die: Entity?, isLeft: Bool) {
-    guard let die = die, let motion = die.components[PhysicsMotionComponent.self] else { return }
+    guard let die = die else { return }
 
-    if simd_length(motion.linearVelocity) < 0.1 && simd_length(motion.angularVelocity) < 0.1 {
-      let xDirection = die.convert(direction: SIMD3(x: 1, y: 0, z: 0), to: nil)
-      let yDirection = die.convert(direction: SIMD3(x: 0, y: 1, z: 0), to: nil)
-      let zDirection = die.convert(direction: SIMD3(x: 0, y: 0, z: 1), to: nil)
-      let greatestDirection = [
-        0: xDirection.y,
-        1: yDirection.y,
-        2: zDirection.y
-      ].sorted(by: { abs($0.1) > abs($1.1) })[0]
+    let xDirection = die.convert(direction: SIMD3(x: 1, y: 0, z: 0), to: nil)
+    let yDirection = die.convert(direction: SIMD3(x: 0, y: 1, z: 0), to: nil)
+    let zDirection = die.convert(direction: SIMD3(x: 0, y: 0, z: 1), to: nil)
+    let greatestDirection = [
+      0: xDirection.y,
+      1: yDirection.y,
+      2: zDirection.y
+    ].sorted(by: { abs($0.1) > abs($1.1) })[0]
 
-      if isLeft {
-        diceData.rolledNumLeft = diceMap[greatestDirection.key][greatestDirection.value > 0 ? 0 : 1]
-      } else {
-        diceData.rolledNumRight = diceMap[greatestDirection.key][greatestDirection.value > 0 ? 0 : 1]
-      }
-
-      print("\(isLeft ? "Left" : "Right") die rolled: \(isLeft ? diceData.rolledNumLeft : diceData.rolledNumRight)")
-      droppedDice = false
+    if isLeft {
+      diceData.rolledNumLeft = diceMap[greatestDirection.key][greatestDirection.value > 0 ? 0 : 1]
+    } else {
+      diceData.rolledNumRight = diceMap[greatestDirection.key][greatestDirection.value > 0 ? 0 : 1]
     }
+
+    print("\(isLeft ? "Left" : "Right") die rolled: \(isLeft ? diceData.rolledNumLeft : diceData.rolledNumRight)")
+    print("\(isLeft ? "Right" : "Left") die rolled: \(isLeft ? diceData.rolledNumRight : diceData.rolledNumLeft)")
+
+    droppedDice = false
   }
 
   func configureDie(_ die: Entity) {
@@ -162,7 +171,7 @@ struct LeftDie: View {
 
   private func startRotatingEntity(_ entity: Entity, _ timer: inout Timer?) {
     guard timer == nil else { return }
-    let rotationSpeed = Float.pi / 90 // Adjust this for faster or slower rotation
+    let rotationSpeed = Float.pi / 75 // Adjust this for faster or slower rotation
 
     // Create a slightly random rotation axis each time
     let randomComponent = Float.random(in: -0.2 ... 0.2) // Small random addition
