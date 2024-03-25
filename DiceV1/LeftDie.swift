@@ -13,11 +13,12 @@ let diceMap = [
   // + | -
   [4, 6], /// X
   [5, 3], // Y
-  [2, 1], // Z
+  [2, 1] // Z
 ]
 
 struct LeftDie: View {
   var diceData: DiceData
+  var movementFactor: Float = 1.0
   @State private var rightDieRotationTimer: Timer?
   @State private var leftDieRotationTimer: Timer?
   @State private var rightDie: Entity?
@@ -25,6 +26,8 @@ struct LeftDie: View {
   @State private var moveTimer: Timer?
   @State private var targetPosition: SIMD3<Float>?
   @State private var droppedDice = false
+  @State private var chasing = false
+  @State private var nonDraggedDie: Entity?
 
   var body: some View {
     RealityView { content in
@@ -57,37 +60,27 @@ struct LeftDie: View {
       } else {
         print("Failed to load Scene")
       }
-      let _ = content.subscribe(to: SceneEvents.Update.self) { _ in
+      _ = content.subscribe(to: SceneEvents.Update.self) { _ in
         guard droppedDice else { return }
-        guard let leftMotion = leftDie!.components[PhysicsMotionComponent.self] else { return }
-        guard let rightMotion = rightDie!.components[PhysicsMotionComponent.self] else { return }
+        print("Updating die state")
+        updateDieState(leftDie!, isLeft: true)
+        updateDieState(rightDie!, isLeft: false)
+      }
+      _ = content.subscribe(to: SceneEvents.Update.self) { _ in
+        guard chasing, let nonDraggedDie = nonDraggedDie, let targetPosition = targetPosition else { return }
+        nonDraggedDie.components[PhysicsBodyComponent.self]?.mode = .kinematic
 
-        if simd_length(leftMotion.linearVelocity) < 0.1 && simd_length(leftMotion.angularVelocity) < 0.1 &&
-          simd_length(rightMotion.linearVelocity) < 0.1 && simd_length(rightMotion.angularVelocity) < 0.1
-        {
-          let xDirection = leftDie!.convert(direction: SIMD3(x: 1, y: 0, z: 0), to: nil)
-          let yDirection = leftDie!.convert(direction: SIMD3(x: 0, y: 1, z: 0), to: nil)
-          let zDirection = leftDie!.convert(direction: SIMD3(x: 0, y: 0, z: 1), to: nil)
-          let greatestDirection = [
-            0: xDirection.y,
-            1: yDirection.y,
-            2: zDirection.y
-          ].sorted(by: { abs($0.1) > abs($1.1) })[0]
-          diceData.rolledNumLeft = diceMap[greatestDirection.key][greatestDirection.value > 0 ? 0 : 1]
+        let currentPosition = nonDraggedDie.position(relativeTo: nil) // Assuming world coordinates
+        let direction = targetPosition - currentPosition
+        let distanceToTarget = simd_length(direction)
 
-          let xDirectionR = rightDie!.convert(direction: SIMD3(x: 1, y: 0, z: 0), to: nil)
-          let yDirectionR = rightDie!.convert(direction: SIMD3(x: 0, y: 1, z: 0), to: nil)
-          let zDirectionR = rightDie!.convert(direction: SIMD3(x: 0, y: 0, z: 1), to: nil)
-          let greatestDirectionR = [
-            0: xDirectionR.y,
-            1: yDirectionR.y,
-            2: zDirectionR.y
-          ].sorted(by: { abs($0.1) > abs($1.1) })[0]
-          diceData.rolledNumRight = diceMap[greatestDirectionR.key][greatestDirectionR.value > 0 ? 0 : 1]
-          print(
-            "\(diceData.rolledNumRight) rolled"
-          )
-          droppedDice = false
+        if distanceToTarget > 0.01 { // Check if the entity is close enough to stop
+          let stepSize = min(movementFactor * Float(1.0 / 60.0), distanceToTarget) // Move a bit each frame
+          let step = simd_normalize(direction) * stepSize
+          nonDraggedDie.position += step
+          print("hi")
+        } else {
+          chasing = false // Stop chasing when the target is reached
         }
       }
     }
@@ -99,13 +92,36 @@ struct LeftDie: View {
     )
   }
 
+  private func updateDieState(_ die: Entity?, isLeft: Bool) {
+    guard let die = die, let motion = die.components[PhysicsMotionComponent.self] else { return }
+
+    if simd_length(motion.linearVelocity) < 0.1 && simd_length(motion.angularVelocity) < 0.1 {
+      let xDirection = die.convert(direction: SIMD3(x: 1, y: 0, z: 0), to: nil)
+      let yDirection = die.convert(direction: SIMD3(x: 0, y: 1, z: 0), to: nil)
+      let zDirection = die.convert(direction: SIMD3(x: 0, y: 0, z: 1), to: nil)
+      let greatestDirection = [
+        0: xDirection.y,
+        1: yDirection.y,
+        2: zDirection.y
+      ].sorted(by: { abs($0.1) > abs($1.1) })[0]
+
+      if isLeft {
+        diceData.rolledNumLeft = diceMap[greatestDirection.key][greatestDirection.value > 0 ? 0 : 1]
+      } else {
+        diceData.rolledNumRight = diceMap[greatestDirection.key][greatestDirection.value > 0 ? 0 : 1]
+      }
+
+      print("\(isLeft ? "Left" : "Right") die rolled: \(isLeft ? diceData.rolledNumLeft : diceData.rolledNumRight)")
+      droppedDice = false
+    }
+  }
+
   func configureDie(_ die: Entity) {
     die.generateCollisionShapes(recursive: false)
   }
 
   func handleDrag(value: EntityTargetValue<DragGesture.Value>) {
     guard let rightDie = rightDie, let leftDie = leftDie else { return }
-
     // Determine which die is being dragged
     let draggedDie = value.entity
 
@@ -117,30 +133,11 @@ struct LeftDie: View {
     draggedDie.position = newPosition
     draggedDie.components[PhysicsBodyComponent.self]?.mode = .kinematic
 
-    // NEW
-    let nonDraggedDie = draggedDie == rightDie ? leftDie : rightDie
+    nonDraggedDie = draggedDie == rightDie ? leftDie : rightDie
     targetPosition = newPosition + (draggedDie == rightDie ? offset : -offset)
-    nonDraggedDie.components[PhysicsBodyComponent.self]?.mode = .kinematic
 
-    // Move the other die gradually towards the target position
-    moveTimer?.invalidate() // Invalidate the existing timer if any
-    moveTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { timer in
-      // Gradually move the non-dragged die towards the target position
-      let currentPos = nonDraggedDie.position
-      let movementSpeed: Float = 0.1 // Adjust the speed as needed
-      let newPos = currentPos + (targetPosition! - currentPos) * movementSpeed
-
-      // Update the position of the non-dragged die
-      nonDraggedDie.position = newPos
-
-      // Stop the timer if the target position is reached approximately
-      if simd_distance(currentPos, targetPosition!) < 0.3 { // 0.05 is the threshold, adjust as needed
-        nonDraggedDie.position = targetPosition! // Snap to the exact target position
-//            nonDraggedDie.components[PhysicsBodyComponent.self]?.mode = .dynamic
-        timer.invalidate()
-      }
-    }
-    startRotatingEntity(nonDraggedDie, &leftDieRotationTimer)
+    chasing = true
+    startRotatingEntity(nonDraggedDie!, &leftDieRotationTimer)
     startRotatingEntity(draggedDie, &rightDieRotationTimer)
   }
 
@@ -155,6 +152,7 @@ struct LeftDie: View {
 
     stopRotatingEntity(&rightDieRotationTimer)
     stopRotatingEntity(&leftDieRotationTimer)
+    chasing = false
     if !droppedDice {
       Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
         droppedDice = true
