@@ -22,7 +22,7 @@ struct DiceV1App: App {
       ContentView(diceData: diceData)
     }.defaultSize(width: 1200, height: 500)
     ImmersiveSpace(id: "die") {
-      LeftDie(diceData: diceData)
+      Dice(diceData: diceData)
     }
   }
 }

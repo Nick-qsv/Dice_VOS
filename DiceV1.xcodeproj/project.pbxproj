@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65366AEF2BB1CCC0002A0848 /* DiceGestureHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65366AEE2BB1CCC0002A0848 /* DiceGestureHandling.swift */; };
+		65366AF12BB1CE91002A0848 /* DiceUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65366AF02BB1CE91002A0848 /* DiceUtilities.swift */; };
 		655090222B965F3700069E13 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 655090212B965F3700069E13 /* RealityKitContent */; };
 		655090242B965F3700069E13 /* DiceV1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655090232B965F3700069E13 /* DiceV1App.swift */; };
 		655090262B965F3700069E13 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655090252B965F3700069E13 /* ContentView.swift */; };
 		655090282B965F3800069E13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 655090272B965F3800069E13 /* Assets.xcassets */; };
 		6550902B2B965F3800069E13 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6550902A2B965F3800069E13 /* Preview Assets.xcassets */; };
 		655090362B965F3800069E13 /* DiceV1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655090352B965F3800069E13 /* DiceV1Tests.swift */; };
-		655090702B9D298300069E13 /* LeftDie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6550906F2B9D298300069E13 /* LeftDie.swift */; };
+		655090702B9D298300069E13 /* Dice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6550906F2B9D298300069E13 /* Dice.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		65366AEE2BB1CCC0002A0848 /* DiceGestureHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceGestureHandling.swift; sourceTree = "<group>"; };
+		65366AF02BB1CE91002A0848 /* DiceUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceUtilities.swift; sourceTree = "<group>"; };
 		6550901C2B965F3700069E13 /* DiceV1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiceV1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		655090202B965F3700069E13 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		655090232B965F3700069E13 /* DiceV1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceV1App.swift; sourceTree = "<group>"; };
@@ -36,7 +40,7 @@
 		6550902C2B965F3800069E13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		655090312B965F3800069E13 /* DiceV1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiceV1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		655090352B965F3800069E13 /* DiceV1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceV1Tests.swift; sourceTree = "<group>"; };
-		6550906F2B9D298300069E13 /* LeftDie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftDie.swift; sourceTree = "<group>"; };
+		6550906F2B9D298300069E13 /* Dice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dice.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +85,9 @@
 			isa = PBXGroup;
 			children = (
 				655090232B965F3700069E13 /* DiceV1App.swift */,
-				6550906F2B9D298300069E13 /* LeftDie.swift */,
+				6550906F2B9D298300069E13 /* Dice.swift */,
+				65366AEE2BB1CCC0002A0848 /* DiceGestureHandling.swift */,
+				65366AF02BB1CE91002A0848 /* DiceUtilities.swift */,
 				655090252B965F3700069E13 /* ContentView.swift */,
 				655090272B965F3800069E13 /* Assets.xcassets */,
 				6550902C2B965F3800069E13 /* Info.plist */,
@@ -258,7 +264,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				655090702B9D298300069E13 /* LeftDie.swift in Sources */,
+				65366AEF2BB1CCC0002A0848 /* DiceGestureHandling.swift in Sources */,
+				655090702B9D298300069E13 /* Dice.swift in Sources */,
+				65366AF12BB1CE91002A0848 /* DiceUtilities.swift in Sources */,
 				655090262B965F3700069E13 /* ContentView.swift in Sources */,
 				655090242B965F3700069E13 /* DiceV1App.swift in Sources */,
 			);
