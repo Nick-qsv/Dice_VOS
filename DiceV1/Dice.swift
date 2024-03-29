@@ -21,11 +21,21 @@ struct Dice: View {
   @State var droppedDice = false
   @State var chasing = false
   @State var nonDraggedDie: Entity?
+  @State var collisionSubscription: EventSubscription?
+  @State private var floor: Entity? // State variable for the floor entity
+  @State var diceMP3: AudioFileResource?
 
   var body: some View {
     RealityView { content in
       setupFloor(in: content)
+      await preloadAudio()
       await loadAndConfigureDice(in: content)
+
+      collisionSubscription = content.subscribe(to: CollisionEvents.Began.self, on: nil) { event in
+        Task {
+          await handleCollisionStart(for: event)
+        }
+      }
       _ = content.subscribe(to: SceneEvents.Update.self) { _ in
         guard droppedDice,
               let motionLeft = leftDie?.components[PhysicsMotionComponent.self],
@@ -55,7 +65,6 @@ struct Dice: View {
           let stepSize = min(movementFactor * Float(1.0 / 60.0), distanceToTarget) // Move a bit each frame
           let step = simd_normalize(direction) * stepSize
           nonDraggedDie.position += step
-          print("hi")
         } else {
           chasing = false // Stop chasing when the target is reached
         }
@@ -70,13 +79,39 @@ struct Dice: View {
   }
 
   private func setupFloor(in content: RealityViewContent) {
-    let floor = ModelEntity(mesh: .generatePlane(width: 50, depth: 50), materials: [OcclusionMaterial()])
-    floor.generateCollisionShapes(recursive: false)
-    floor.components[PhysicsBodyComponent.self] = .init(
+    let floorEntity = ModelEntity(mesh: .generatePlane(width: 50, depth: 50), materials: [OcclusionMaterial()])
+    floorEntity.generateCollisionShapes(recursive: false)
+    floorEntity.components[PhysicsBodyComponent.self] = .init(
       massProperties: .default,
       mode: .static
     )
-    content.add(floor)
+    content.add(floorEntity)
+    floor = floorEntity // Assign the floor entity to the state variable
+  }
+
+  private func handleCollisionStart(for event: CollisionEvents.Began) async {
+    if (event.entityA == leftDie && event.entityB == rightDie) ||
+      (event.entityA == rightDie && event.entityB == leftDie)
+    {
+      print("The dice collided with each other")
+      await playDiceSoundAsync(leftDie)
+    } else if event.entityA == floor || event.entityB == floor {
+      print("A die collided with the floor")
+      await playDiceSoundAsync(rightDie)
+    }
+  }
+
+  func preloadAudio() async {
+    do {
+      diceMP3 = try await AudioFileResource.load(
+        named: "/Root/dice_mp3",
+        from: "Scene.usda",
+        in: realityKitContentBundle
+      )
+      print("Audio preloaded successfully")
+    } catch {
+      print("Failed to preload audio", error)
+    }
   }
 }
 

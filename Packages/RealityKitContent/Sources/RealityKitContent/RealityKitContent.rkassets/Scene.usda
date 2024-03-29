@@ -5,9 +5,11 @@
     upAxis = "Y"
 )
 
+reorder rootPrims = ["Root", "LeftDieAud", "RightDieAud"]
+
 def Xform "Root"
 {
-    reorder nameChildren = ["InputTarget", "Collider", "Right_Die", "Left_Die"]
+    reorder nameChildren = ["InputTarget", "Collider", "Right_Die", "Left_Die", "AudioMixGroups", "JetOne", "dice_mp3", "Jet2"]
     rel material:binding = None (
         bindMaterialAs = "weakerThanDescendants"
     )
@@ -46,9 +48,10 @@ def Xform "Root"
         references = @die_new_vf.usdz@
     )
     {
+        reorder nameChildren = ["Materials", "Geom", "InputTarget", "RigidBody", "MotionState", "Collider", "RightDieAud"]
         quatf xformOp:orient = (0.7055242, 0, 0.70868576, 0)
         float3 xformOp:scale = (0.5, 0.5, 0.5)
-        float3 xformOp:translate = (0.28817913, 0.1495992, -1.310251)
+        float3 xformOp:translate = (0.35329092, 0.1495992, -1.310541)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def RealityKitComponent "InputTarget"
@@ -98,6 +101,27 @@ def Xform "Root"
                 }
             }
         }
+
+        over "Geom"
+        {
+        }
+
+        def Xform "RightDieAud" (
+            customData = {
+                float3 rotationEulerHint = (0, 1.5707963, 0)
+            }
+        )
+        {
+            quatf xformOp:orient = (0.70710677, 0, 0.70710677, 0)
+            float3 xformOp:scale = (4.000001, 4, 4.000001)
+            float3 xformOp:translate = (0.058870792, 0.03531, 0.038838863)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "SpatialAudio"
+            {
+                uniform token info:id = "RealityKit.SpatialAudio"
+            }
+        }
     }
 
     def "Left_Die" (
@@ -105,8 +129,9 @@ def Xform "Root"
         references = @die_new_vf.usdz@
     )
     {
+        reorder nameChildren = ["Materials", "Geom", "InputTarget", "RigidBody", "MotionState", "Collider", "LeftDieAud"]
         float3 xformOp:scale = (0.5, 0.5, 0.5)
-        float3 xformOp:translate = (-0.20045829, 0.08462928, -2.0697856)
+        float3 xformOp:translate = (-0.18378401, 0.08462928, -2.0697856)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def RealityKitComponent "InputTarget"
@@ -164,6 +189,55 @@ def Xform "Root"
                 token outputs:surface.connect = </Root/Left_Die/Materials/Material/surfaceShader.outputs:surface>
             }
         }
+
+        def Xform "LeftDieAud" (
+            customData = {
+                float3 rotationEulerHint = (0, 3.1415927, 0)
+            }
+        )
+        {
+            quatf xformOp:orient = (-4.371139e-8, 0, 1, 0)
+            float3 xformOp:scale = (4, 4, 4)
+            float3 xformOp:translate = (-0.020588756, -0.0032565296, 0.011050701)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "SpatialAudio"
+            {
+                uniform token info:id = "RealityKit.SpatialAudio"
+            }
+        }
+    }
+
+    def RealityKitComponent "AudioMixGroups"
+    {
+        uniform token info:id = "RealityKit.AudioMixGroups"
+
+        def RealityKitAudioMixGroup "MixGroup"
+        {
+            float gain = 0
+            bool mute = 0
+            float speed = 1
+        }
+    }
+
+    def "Jet2" (
+        active = true
+        references = @JetPassingOverhead02.usdz@
+    )
+    {
+    }
+
+    def "JetOne" (
+        active = true
+        references = @JetPassingOverhead01.usdz@
+    )
+    {
+    }
+
+    def RealityKitAudioFile "dice_mp3"
+    {
+        uniform asset file = @dice-142528.mp3@
+        uniform bool shouldRandomizeStartTime = 1
     }
 }
 

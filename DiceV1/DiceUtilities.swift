@@ -78,7 +78,6 @@ extension Dice {
           print("Failed to load Entity named \(dieName)")
           continue
         }
-
         configureDie(die)
         content.add(die)
 
@@ -93,6 +92,42 @@ extension Dice {
       }
     } catch {
       print("Failed to load Scene")
+    }
+  }
+
+  func playJetSound(_ die: Entity?) {
+    guard let die = die else { return }
+    let audioNames = ["RightDieAud", "LeftDieAud"]
+    for audioName in audioNames {
+      guard let audioEntity = die.findEntity(named: audioName) else {
+        print("failed to load Audio Entity named \(audioName)")
+        continue
+      }
+      if let resource = try? AudioFileResource.load(
+        named: "/Root/JetOne",
+        from: "Scene.usda",
+        in: realityKitContentBundle
+      ) {
+        print("loaded audio! \(resource)")
+        let audioPlaybackController = audioEntity.prepareAudio(resource)
+        audioPlaybackController.play()
+      } else {
+        print("no go on audio :(")
+      }
+    }
+  }
+
+  func playDiceSoundAsync(_ die: Entity?) async {
+    guard let die = die, let resource = diceMP3 else { return }
+    let audioNames = ["RightDieAud", "LeftDieAud"]
+
+    for audioName in audioNames {
+      guard let audioEntity = await die.findEntity(named: audioName) else {
+        print("failed to load Audio Entity named \(audioName)")
+        continue
+      }
+      let audioPlaybackController = await audioEntity.prepareAudio(resource)
+      await audioPlaybackController.play()
     }
   }
 }
