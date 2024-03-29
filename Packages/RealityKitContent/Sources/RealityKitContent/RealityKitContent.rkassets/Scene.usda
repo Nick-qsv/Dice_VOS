@@ -237,7 +237,7 @@ def Xform "Root"
     def RealityKitAudioFile "dice_mp3"
     {
         uniform asset file = @dice-142528.mp3@
-        uniform bool shouldRandomizeStartTime = 1
+        uniform bool shouldRandomizeStartTime = 0
     }
 }
 
