@@ -5,11 +5,11 @@
     upAxis = "Y"
 )
 
-reorder rootPrims = ["Root", "LeftDieAud", "RightDieAud"]
+reorder rootPrims = ["Root", "CheckerP1", "CheckerP1_1"]
 
 def Xform "Root"
 {
-    reorder nameChildren = ["InputTarget", "Collider", "Right_Die", "Left_Die", "AudioMixGroups", "JetOne", "dice_mp3", "Jet2"]
+    reorder nameChildren = ["InputTarget", "Collider", "Right_Die", "Left_Die", "AudioMixGroups", "JetOne", "dice_mp3", "Jet2", "CheckerP1", "CheckerP2"]
     rel material:binding = None (
         bindMaterialAs = "weakerThanDescendants"
     )
@@ -238,6 +238,89 @@ def Xform "Root"
     {
         uniform asset file = @dice-142528.mp3@
         uniform bool shouldRandomizeStartTime = 0
+    }
+
+    def "CheckerP1" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/CheckerP1/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (1.6521754, 0.11486131, -0.3105122)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.9530847, 0.1454529, 0.14794154) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.36543572, 0.12668478, 0.10012296) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 1
+                    float inputs:roughness = 0.1
+                }
+            }
+        }
+    }
+
+    def "CheckerP2" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/CheckerP2/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (0.7138096, 0.09916421, -0.32720247)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/CheckerP2/Materials/defaultMaterial/Shader.outputs:surface>
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.9778193, 0.9805604, 1) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.2737194, 0.2737194, 0.2737194) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 0
+                    float inputs:roughness = 0.4
+                }
+            }
+        }
+    }
+
+    def "board_v1" (
+        active = true
+        prepend references = @board_v1.usdz@
+    )
+    {
+        float3 xformOp:scale = (0.5, 0.5, 0.5)
+        float3 xformOp:translate = (1.1868234, 0.2805057, 0.85466766)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }
 

@@ -38,7 +38,7 @@ struct Dice: View {
 
       collisionSubscription = content.subscribe(to: CollisionEvents.Began.self, on: nil) { event in
         Task {
-          await handleCollisionStart(for: event)
+          handleCollisionStart(for: event)
         }
       }
       resultSubscription = content.subscribe(to: SceneEvents.Update.self) { _ in

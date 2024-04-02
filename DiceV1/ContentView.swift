@@ -19,19 +19,41 @@ struct ContentView: View {
 
   var body: some View {
     VStack {
-      Text(
-        !diceData.rolled ? "Roll the Dice!" : "\(diceData.rolledNumLeft) & \(diceData.rolledNumRight)"
-      )
-      .foregroundStyle(.green)
-      .font(.custom("Menlo", size: 100))
-      .bold()
-      Toggle("Show Immersive Space", isOn: $showImmersiveSpace)
+      switch diceData.gameState {
+      case .mainMenu:
+        Text("Click the button below to start the game")
+          .foregroundStyle(.green)
+          .font(.custom("Menlo", size: 40))
+          .bold()
+      case .playing:
+        if !diceData.rolled {
+          Text("\(diceData.rollState == .player1Turn ? "Player 1" : "Player 2"), roll the dice!")
+            .foregroundStyle(.green)
+            .font(.custom("Menlo", size: 40))
+            .bold()
+        } else {
+          Text("You rolled: \(diceData.rolledNumLeft) & \(diceData.rolledNumRight)")
+            .foregroundColor(.green)
+            .font(.custom("Menlo", size: 50))
+          Button("Next Player's Turn") {
+            // Move to the next player and reset the rolled state
+            diceData.rollState = diceData.rollState == .player1Turn ? .player2Turn : .player1Turn
+            diceData.rolled = false
+          }
+          .foregroundColor(.white)
+          .padding()
+          .cornerRadius(10)
+        }
+      }
+      Toggle(diceData.gameState == .playing ? "End the Game" : "Start the Game", isOn: $showImmersiveSpace)
         .toggleStyle(.button)
         .padding(.top, 50)
     }
     .padding()
     .onChange(of: showImmersiveSpace) { _, newValue in
       print("Toggle changed: \(newValue)")
+      diceData.toggleGameState()
+      diceData.rollState = .player1Turn
       Task {
         if newValue {
           print("Attempting to open immersive space")
