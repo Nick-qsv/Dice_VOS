@@ -17,6 +17,7 @@
 		655090362B965F3800069E13 /* DiceV1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655090352B965F3800069E13 /* DiceV1Tests.swift */; };
 		655090702B9D298300069E13 /* Dice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6550906F2B9D298300069E13 /* Dice.swift */; };
 		658DF3472BBEFB0800E27379 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658DF3462BBEFB0800E27379 /* GameModel.swift */; };
+		658DF3492BC0A86900E27379 /* BoardUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658DF3482BC0A86900E27379 /* BoardUtilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		655090352B965F3800069E13 /* DiceV1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceV1Tests.swift; sourceTree = "<group>"; };
 		6550906F2B9D298300069E13 /* Dice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dice.swift; sourceTree = "<group>"; };
 		658DF3462BBEFB0800E27379 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
+		658DF3482BC0A86900E27379 /* BoardUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardUtilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				658DF3462BBEFB0800E27379 /* GameModel.swift */,
 				65366AEE2BB1CCC0002A0848 /* DiceGestureHandling.swift */,
 				65366AF02BB1CE91002A0848 /* DiceUtilities.swift */,
+				658DF3482BC0A86900E27379 /* BoardUtilities.swift */,
 				655090252B965F3700069E13 /* ContentView.swift */,
 				655090272B965F3800069E13 /* Assets.xcassets */,
 				6550902C2B965F3800069E13 /* Info.plist */,
@@ -271,6 +274,7 @@
 				655090702B9D298300069E13 /* Dice.swift in Sources */,
 				65366AF12BB1CE91002A0848 /* DiceUtilities.swift in Sources */,
 				655090262B965F3700069E13 /* ContentView.swift in Sources */,
+				658DF3492BC0A86900E27379 /* BoardUtilities.swift in Sources */,
 				655090242B965F3700069E13 /* DiceV1App.swift in Sources */,
 				658DF3472BBEFB0800E27379 /* GameModel.swift in Sources */,
 			);

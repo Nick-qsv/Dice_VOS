@@ -1277,7 +1277,9 @@ def Xform "Root"
             }
         }
 
-        def RealityKitComponent "Collider"
+        def RealityKitComponent "Collider" (
+            active = false
+        )
         {
             uint group = 1
             uniform token info:id = "RealityKit.Collider"
@@ -1308,7 +1310,7 @@ def Xform "Root"
 
             def RealityKitStruct "massFrame"
             {
-                float3 m_inertia = (10, 10, 10)
+                float3 m_inertia = (1, 1, 1)
                 float m_mass = 100
 
                 def RealityKitStruct "m_pose"
@@ -1318,6 +1320,9 @@ def Xform "Root"
 
             def RealityKitStruct "material"
             {
+                double dynamicFriction = 1
+                double restitution = 0.2
+                double staticFriction = 1
             }
         }
     }
@@ -1381,8 +1386,8 @@ def Xform "Root"
         rel material:binding = </Root/WidthBox2/DefaultMaterial>
         double size = 0.2
         quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (1, 1, 1.25)
-        float3 xformOp:translate = (0.3733935, 0.40374085, -2.126812)
+        float3 xformOp:scale = (1, 2, 1.25)
+        float3 xformOp:translate = (0.3089722, 0.2921687, -2.1359735)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Material "DefaultMaterial"
@@ -1390,58 +1395,6 @@ def Xform "Root"
             token outputs:mtlx:surface
             token outputs:realitykit:vertex
             token outputs:surface.connect = </Root/WidthBox2/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
-
-            def Shader "DefaultSurfaceShader"
-            {
-                uniform token info:id = "UsdPreviewSurface"
-                color3f inputs:diffuseColor = (1, 0.047706753, 0) (
-                    colorSpace = "srgb_displayp3"
-                )
-                float inputs:roughness = 0.75
-                token outputs:surface
-            }
-        }
-
-        def RealityKitComponent "Collider"
-        {
-            uint group = 1
-            uniform token info:id = "RealityKit.Collider"
-            uint mask = 4294967295
-            token type = "Default"
-
-            def RealityKitStruct "Shape"
-            {
-                float3 extent = (0.2, 0.2, 0.2)
-                float radius = 0.1
-                token shapeType = "Box"
-
-                def RealityKitStruct "pose"
-                {
-                }
-            }
-        }
-    }
-
-    def Cube "HeightBox1" (
-        active = true
-        prepend apiSchemas = ["MaterialBindingAPI"]
-        customData = {
-            float3 rotationEulerHint = (0, 0, 0)
-        }
-    )
-    {
-        rel material:binding = </Root/HeightBox1/DefaultMaterial>
-        double size = 0.2
-        quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (1, 1.12, 1.25)
-        float3 xformOp:translate = (0.3733935, 0.20588018, -1.3468742)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-        def Material "DefaultMaterial"
-        {
-            token outputs:mtlx:surface
-            token outputs:realitykit:vertex
-            token outputs:surface.connect = </Root/HeightBox1/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
 
             def Shader "DefaultSurfaceShader"
             {

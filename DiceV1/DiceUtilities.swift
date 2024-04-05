@@ -75,6 +75,7 @@ extension Dice {
         print("Failed to load board")
         return
       }
+
       content.add(board)
       guard let check1 = await scene.findEntity(named: "CheckerP1") else {
         print("Faile to load checker 1")
