@@ -56,13 +56,13 @@ extension Dice {
     ].sorted(by: { abs($0.1) > abs($1.1) })[0]
 
     if isLeft {
-      diceData.rolledNumLeft = diceMap[greatestDirection.key][greatestDirection.value > 0 ? 0 : 1]
+      gameModel.rolledNumLeft = diceMap[greatestDirection.key][greatestDirection.value > 0 ? 0 : 1]
     } else {
-      diceData.rolledNumRight = diceMap[greatestDirection.key][greatestDirection.value > 0 ? 0 : 1]
+      gameModel.rolledNumRight = diceMap[greatestDirection.key][greatestDirection.value > 0 ? 0 : 1]
     }
 
-    print("\(isLeft ? "Left" : "Right") die rolled: \(isLeft ? diceData.rolledNumLeft : diceData.rolledNumRight)")
-    print("\(isLeft ? "Right" : "Left") die rolled: \(isLeft ? diceData.rolledNumRight : diceData.rolledNumLeft)")
+    print("\(isLeft ? "Left" : "Right") die rolled: \(isLeft ? gameModel.rolledNumLeft : gameModel.rolledNumRight)")
+    print("\(isLeft ? "Right" : "Left") die rolled: \(isLeft ? gameModel.rolledNumRight : gameModel.rolledNumLeft)")
 
     droppedDice = false
   }
@@ -71,7 +71,23 @@ extension Dice {
     do {
       let scene = try await Entity(named: "Scene", in: realityKitContentBundle)
       print("Scene loaded successfully")
-
+      guard let board = await scene.findEntity(named: "board_vc3") else {
+        print("Failed to load board")
+        return
+      }
+      content.add(board)
+      guard let check1 = await scene.findEntity(named: "CheckerP1") else {
+        print("Faile to load checker 1")
+        return
+      }
+      content.add(check1)
+      p1C = check1
+      guard let check2 = await scene.findEntity(named: "CheckerP2") else {
+        print("Faile to load checker 2")
+        return
+      }
+      content.add(check2)
+      p2C = check2
       let diceNames = ["Right_Die", "Left_Die"]
       for dieName in diceNames {
         guard let die = await scene.findEntity(named: dieName) else {
@@ -94,20 +110,6 @@ extension Dice {
       print("Failed to load Scene")
     }
   }
-
-//  func playDiceSoundAsync(_ die: Entity?) async {
-//    guard let die = die, let resource = diceMP3 else { return }
-//
-//    // Determine which sound to play based on the die entity
-//    let audioName = die == leftDie ? "LeftDieAud" : "RightDieAud"
-//    guard let audioEntity = await die.findEntity(named: audioName) else {
-//      print("failed to load Audio Entity named \(audioName)")
-//      return
-//    }
-//
-//    let audioPlaybackController = await audioEntity.prepareAudio(resource)
-//    await audioPlaybackController.play()
-//  }
 
   func playDiceSound(die: Entity?) {
     guard let die = die else { return }

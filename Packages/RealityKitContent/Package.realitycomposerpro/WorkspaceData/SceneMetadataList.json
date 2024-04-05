@@ -76,26 +76,7 @@
       },
       [
         "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
-        "Root",
-        "CheckerP1"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
         "Root"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
-        "Root",
-        "CheckerP1",
-        "Materials"
       ],
       {
         "isExpanded" : true,
@@ -120,7 +101,7 @@
         "Left_Die"
       ],
       {
-        "isExpanded" : true,
+        "isExpanded" : false,
         "isLocked" : false,
         "selectedAudioFilePrim" : {
           "string" : "\/Root\/Jet_1"
@@ -190,7 +171,7 @@
         "Right_Die"
       ],
       {
-        "isExpanded" : true,
+        "isExpanded" : false,
         "isLocked" : false,
         "selectedAudioFilePrim" : {
           "string" : "\/Root\/Jet_1"
