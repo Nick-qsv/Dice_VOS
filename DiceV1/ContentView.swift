@@ -77,7 +77,3 @@ struct ContentView: View {
     }
   }
 }
-
-#Preview(windowStyle: .automatic) {
-  ContentView(gameModel: GameModel())
-}

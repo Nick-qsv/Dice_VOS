@@ -40,44 +40,6 @@ struct Dice: View {
       await preloadPointArray()
       await loadBoard(in: content)
       setupBoardCollision(board)
-//      board?.components[CollisionComponent.self] = .none
-//      let base = ShapeResource.generateBox(width: 2.5, height: 0.264, depth: 5.333)
-//        .offsetBy(translation: [0, 0.315, 0])
-//      let centerBox = ShapeResource.generateBox(width: 2.5, height: 0.4, depth: 0.31)
-//        .offsetBy(translation: [0, 0.53, 0])
-//      let rightWall = ShapeResource.generateBox(width: 2.5, height: 0.4, depth: 0.12)
-//        .offsetBy(translation: [
-//          0,
-//          0.53,
-//          2.57
-//        ])
-//      let closeWall = ShapeResource.generateBox(width: 0.12, height: 0.4, depth: 5.33)
-//        .offsetBy(translation: [
-//          -1.15,
-//          0.53,
-//          0
-//        ])
-//      let leftWall = ShapeResource.generateBox(width: 2.5, height: 0.4, depth: 0.12)
-//        .offsetBy(translation: [
-//          0,
-//          0.53,
-//          -2.57
-//        ])
-//      let farWall = ShapeResource.generateBox(width: 0.12, height: 0.4, depth: 5.33)
-//        .offsetBy(translation: [
-//          1.15,
-//          0.53,
-//          0
-//        ])
-//      board?.components[CollisionComponent.self] = CollisionComponent(shapes: [
-//        base,
-//        centerBox,
-//        rightWall,
-//        closeWall,
-//        leftWall,
-//        farWall
-//      ])
-
       collisionSubscription = content.subscribe(to: CollisionEvents.Began.self, on: nil) { event in
         Task {
           handleCollisionStart(for: event)
@@ -117,11 +79,16 @@ struct Dice: View {
         }
       }
     }
-    .gesture(
+    .simultaneousGesture(
       DragGesture()
         .targetedToAnyEntity()
         .onChanged(handleDrag)
         .onEnded(handleDragEnd)
+    )
+    .simultaneousGesture(
+      TapGesture()
+        .targetedToAnyEntity()
+        .onEnded(handleTap)
     )
   }
 

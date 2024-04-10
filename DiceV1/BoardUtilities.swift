@@ -76,7 +76,6 @@ extension Dice {
           print("Failed to load Entity named \(pointName)")
           continue
         }
-
         // Create the PointData for the loaded entity
         let pointData = await PointData(point: point, position: point.position, count: 0, pbe: .empty)
 

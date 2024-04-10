@@ -71,22 +71,20 @@ extension Dice {
     do {
       let scene = try await Entity(named: "Scene", in: realityKitContentBundle)
       print("Scene loaded successfully")
-      guard let board = await scene.findEntity(named: "board_vc3") else {
-        print("Failed to load board")
-        return
-      }
-
-      content.add(board)
       guard let check1 = await scene.findEntity(named: "CheckerP1") else {
         print("Faile to load checker 1")
         return
       }
+      await check1.components.set(CheckerComponent())
+
       content.add(check1)
       p1C = check1
       guard let check2 = await scene.findEntity(named: "CheckerP2") else {
         print("Faile to load checker 2")
         return
       }
+      await check2.components.set(CheckerComponent())
+
       content.add(check2)
       p2C = check2
       let diceNames = ["Right_Die", "Left_Die"]
