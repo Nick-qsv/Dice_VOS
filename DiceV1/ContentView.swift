@@ -27,7 +27,7 @@ struct ContentView: View {
           .bold()
       case .playing:
         if !gameModel.rolled {
-          Text("\(gameModel.rollState == .player1Turn ? "Player 1" : "Player 2"), roll the dice!")
+          Text("\(gameModel.turnState == .player1 ? "Player 1" : "Player 2"), roll the dice!")
             .foregroundStyle(.green)
             .font(.custom("Menlo", size: 40))
             .bold()
@@ -37,8 +37,9 @@ struct ContentView: View {
             .font(.custom("Menlo", size: 50))
           Button("Next Player's Turn") {
             // Move to the next player and reset the rolled state
-            gameModel.rollState = gameModel.rollState == .player1Turn ? .player2Turn : .player1Turn
+            gameModel.turnState = gameModel.turnState == .player1 ? .player2 : .player1
             gameModel.rolled = false
+            gameModel.rollCount = 0
           }
           .foregroundColor(.white)
           .padding()
@@ -53,7 +54,7 @@ struct ContentView: View {
     .onChange(of: showImmersiveSpace) { _, newValue in
       print("Toggle changed: \(newValue)")
       gameModel.toggleGameState()
-      gameModel.rollState = .player1Turn
+      gameModel.turnState = .player1
       Task {
         if newValue {
           print("Attempting to open immersive space")

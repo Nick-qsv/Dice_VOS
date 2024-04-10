@@ -13,7 +13,8 @@ class GameModel {
   var rolledNumLeft = 0
   var rolledNumRight = 0
   var rolled = false
-  var rollState = RollState.player1Turn
+  var rollCount = 0
+  var turnState = TurnState.player1
   var gameState = GameState.mainMenu
   var p1Points: [PointData] = [] // Assuming you need an array of points for player 1
   var p2Points: [PointData] = []
@@ -33,9 +34,9 @@ class GameModel {
   // Opening Position (eventually)
 }
 
-enum RollState {
-  case player1Turn
-  case player2Turn
+enum TurnState {
+  case player1
+  case player2
 }
 
 enum GameState {

@@ -11,12 +11,23 @@ import SwiftUI
 extension Dice {
   func handleTap(value: EntityTargetValue<TapGesture.Value>) {
     let entity = value.entity
-    guard entity.components[CheckerComponent.self] != nil else {
-      return // This entity does not have the CheckerComponent, so we ignore it
+
+    switch gameModel.turnState {
+    case .player1:
+      guard entity.components[Player1Component.self] != nil else {
+        return // Entity does not have the Player1Component
+      }
+      print("Player 1 entity tapped")
+
+    case .player2:
+      guard entity.components[Player2Component.self] != nil else {
+        return // Entity does not have the Player2Component
+      }
+      print("Player 2 entity tapped")
     }
-    // The entity has the CheckerComponent, so handle it accordingly
-    print("Entity with CheckerComponent tapped")
   }
 }
 
 struct CheckerComponent: Component {}
+struct Player1Component: Component {}
+struct Player2Component: Component {}

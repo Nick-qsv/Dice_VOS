@@ -18,7 +18,6 @@ struct Dice: View {
   @State var leftDie: Entity?
   @State var moveTimer: Timer?
   @State var targetPosition: SIMD3<Float>?
-  @State var droppedDice = false
   @State var chasing = false
   @State var nonDraggedDie: Entity?
   @State var collisionSubscription: EventSubscription?
@@ -39,6 +38,7 @@ struct Dice: View {
       await preloadAudioAndEntities(leftDie: leftDie, rightDie: rightDie)
       await preloadPointArray()
       await loadBoard(in: content)
+      await loadAndConfigureCheckers(in: content)
       setupBoardCollision(board)
       collisionSubscription = content.subscribe(to: CollisionEvents.Began.self, on: nil) { event in
         Task {
@@ -46,20 +46,22 @@ struct Dice: View {
         }
       }
       resultSubscription = content.subscribe(to: SceneEvents.Update.self) { _ in
-        guard droppedDice,
+        guard !gameModel.rolled, gameModel.rollCount == 1,
               let motionLeft = leftDie?.components[PhysicsMotionComponent.self],
               let motionRight = rightDie?.components[PhysicsMotionComponent.self] else { return }
 
-        let isMoving = simd_length(motionLeft.linearVelocity) >= 0.01 ||
-          simd_length(motionRight.linearVelocity) >= 0.01 ||
-          simd_length(motionLeft.angularVelocity) >= 0.01 ||
-          simd_length(motionRight.angularVelocity) >= 0.01
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Delay of 0.5 seconds
+          let isStationary = simd_length(motionLeft.linearVelocity) <= 0.01 &&
+            simd_length(motionRight.linearVelocity) <= 0.01 &&
+            simd_length(motionLeft.angularVelocity) <= 0.01 &&
+            simd_length(motionRight.angularVelocity) <= 0.01
 
-        if !isMoving {
-          print("Updating die state")
-          updateDieState(leftDie!, isLeft: true)
-          updateDieState(rightDie!, isLeft: false)
-          gameModel.rolled = true
+          if isStationary {
+            print("Updating die state")
+            updateDieState(leftDie!, isLeft: true)
+            updateDieState(rightDie!, isLeft: false)
+            gameModel.rolled = true
+          }
         }
       }
       chaseSubscription = content.subscribe(to: SceneEvents.Update.self) { _ in
@@ -110,10 +112,10 @@ struct Dice: View {
       print("The dice collided with each other")
       // Optionally, play a sound specific to dice collision
     } else if event.entityA == floor && (event.entityB == leftDie || event.entityB == rightDie) {
-      print("A die collided with the floor")
+//      print("A die collided with the floor")
       playDiceSound(die: event.entityB) // Pass the colliding die
     } else if event.entityB == floor && (event.entityA == leftDie || event.entityA == rightDie) {
-      print("A die collided with the floor")
+//      print("A die collided with the floor")
       playDiceSound(die: event.entityA) // Pass the colliding die
     }
   }
