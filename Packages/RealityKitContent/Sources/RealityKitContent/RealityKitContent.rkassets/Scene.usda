@@ -9,7 +9,7 @@ reorder rootPrims = ["Root", "CheckerP1", "CheckerP1_1"]
 
 def Xform "Root"
 {
-    reorder nameChildren = ["InputTarget", "Collider", "Right_Die", "Left_Die", "AudioMixGroups", "dice_mp3", "CheckerP1", "CheckerP2", "board_vc3", "WidthBox1", "WidthBox2", "HeightBox1"]
+    reorder nameChildren = ["InputTarget", "Collider", "Right_Die", "board_vc3", "Left_Die", "AudioMixGroups", "dice_mp3", "P1C_1", "P1C_2", "P1C_3", "P1C_4", "P1C_5", "P1C_6", "P1C_7", "P1C_8", "P1C_9", "P1C_10", "P1C_11", "P1C_12", "P1C_13", "P1C_14", "P1C_15", "P2C_1", "P2C_2", "P2C_3", "P2C_4", "P2C_5", "P2C_6", "P2C_7", "P2C_8", "P2C_9", "P2C_10", "P2C_11", "P2C_12", "P2C_13", "P2C_14", "P2C_15"]
     rel material:binding = None (
         bindMaterialAs = "weakerThanDescendants"
     )
@@ -224,169 +224,6 @@ def Xform "Root"
     {
         uniform asset file = @dice-142528.mp3@
         uniform bool shouldRandomizeStartTime = 0
-    }
-
-    def "CheckerP1" (
-        active = true
-        prepend apiSchemas = ["MaterialBindingAPI"]
-        references = @normal_checker_v1.usdz@
-    )
-    {
-        rel material:binding = </Root/CheckerP1/Materials/defaultMaterial> (
-            bindMaterialAs = "weakerThanDescendants"
-        )
-        quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (0.08, 0.08, 0.08)
-        float3 xformOp:translate = (1.1638541, 0.33219796, -0.5043371)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-        over "Materials"
-        {
-            over "defaultMaterial"
-            {
-                token outputs:mtlx:surface
-                token outputs:realitykit:vertex
-
-                over "Shader"
-                {
-                    color3f inputs:diffuseColor = (0.9530847, 0.1454529, 0.14794154) (
-                        colorSpace = "srgb_displayp3"
-                    )
-                    color3f inputs:emissiveColor = (0.36543572, 0.12668478, 0.10012296) (
-                        colorSpace = "srgb_displayp3"
-                    )
-                    float inputs:metallic = 1
-                    float inputs:roughness = 0.1
-                }
-            }
-        }
-
-        def RealityKitComponent "Collider"
-        {
-            uint group = 1
-            uniform token info:id = "RealityKit.Collider"
-            uint mask = 4294967295
-            token type = "Default"
-
-            def RealityKitStruct "Shape"
-            {
-                float3 extent = (1.3999999, 0.19999999, 1.3999999)
-                token shapeType = "Box"
-
-                def RealityKitStruct "pose"
-                {
-                    float3 position = (0, -0.22000003, 0)
-                }
-            }
-        }
-
-        def RealityKitComponent "InputTarget"
-        {
-            uniform token info:id = "RealityKit.InputTarget"
-        }
-
-        def RealityKitComponent "RigidBody"
-        {
-            uniform token info:id = "RealityKit.RigidBody"
-
-            def RealityKitStruct "massFrame"
-            {
-                def RealityKitStruct "m_pose"
-                {
-                }
-            }
-
-            def RealityKitStruct "material"
-            {
-            }
-        }
-
-        def RealityKitComponent "MotionState"
-        {
-            uniform token info:id = "RealityKit.MotionState"
-        }
-    }
-
-    def "CheckerP2" (
-        active = true
-        prepend apiSchemas = ["MaterialBindingAPI"]
-        references = @normal_checker_v1.usdz@
-    )
-    {
-        rel material:binding = </Root/CheckerP2/Materials/defaultMaterial> (
-            bindMaterialAs = "weakerThanDescendants"
-        )
-        quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (0.08, 0.08, 0.08)
-        float3 xformOp:translate = (-0.2806409, 0.32721284, -0.5006472)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-        over "Materials"
-        {
-            over "defaultMaterial"
-            {
-                token outputs:mtlx:surface
-                token outputs:realitykit:vertex
-                token outputs:surface.connect = </Root/CheckerP2/Materials/defaultMaterial/Shader.outputs:surface>
-
-                over "Shader"
-                {
-                    color3f inputs:diffuseColor = (0.1626281, 0.21857607, 1) (
-                        colorSpace = "srgb_displayp3"
-                    )
-                    color3f inputs:emissiveColor = (0.2737194, 0.2737194, 0.2737194) (
-                        colorSpace = "srgb_displayp3"
-                    )
-                    float inputs:metallic = 0
-                    float inputs:roughness = 0.4
-                }
-            }
-        }
-
-        def RealityKitComponent "InputTarget"
-        {
-            uniform token info:id = "RealityKit.InputTarget"
-        }
-
-        def RealityKitComponent "Collider"
-        {
-            uint group = 1
-            uniform token info:id = "RealityKit.Collider"
-            uint mask = 4294967295
-            token type = "Default"
-
-            def RealityKitStruct "Shape"
-            {
-                float3 extent = (1.3999999, 0.19999999, 1.3999999)
-                token shapeType = "Box"
-
-                def RealityKitStruct "pose"
-                {
-                    float3 position = (0, -0.22000003, 0)
-                }
-            }
-        }
-
-        def RealityKitComponent "RigidBody"
-        {
-            uniform token info:id = "RealityKit.RigidBody"
-
-            def RealityKitStruct "massFrame"
-            {
-                def RealityKitStruct "m_pose"
-                {
-                }
-            }
-
-            def RealityKitStruct "material"
-            {
-            }
-        }
-
-        def RealityKitComponent "MotionState"
-        {
-            uniform token info:id = "RealityKit.MotionState"
-        }
     }
 
     def "board_vc3" (
@@ -1324,6 +1161,1153 @@ def Xform "Root"
                 double restitution = 0.2
                 double staticFriction = 1
             }
+        }
+    }
+
+    def "P1C_1" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/P1C_1/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (1.1638541, 0.33219796, -0.5043371)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.9530847, 0.1454529, 0.14794154) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.36543572, 0.12668478, 0.10012296) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 1
+                    float inputs:roughness = 0.1
+                }
+            }
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (1.3999999, 0.19999999, 1.3999999)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, -0.22000003, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+    }
+
+    def "P1C_2" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/P1C_2/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (1.1638541, 0.33219796, -0.77262497)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/P1C_2/Materials/defaultMaterial/Shader.outputs:surface>
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.9530847, 0.1454529, 0.14794154) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.36543572, 0.12668478, 0.10012296) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 1
+                    float inputs:roughness = 0.1
+                }
+            }
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (1.3999999, 0.19999999, 1.3999999)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, -0.22000003, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+    }
+
+    def "P1C_3" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/P1C_3/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (1.1638541, 0.33219796, -1.572162)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/P1C_3/Materials/defaultMaterial/Shader.outputs:surface>
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.9530847, 0.1454529, 0.14794154) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.36543572, 0.12668478, 0.10012296) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 1
+                    float inputs:roughness = 0.1
+                }
+            }
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (1.3999999, 0.19999999, 1.3999999)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, -0.22000003, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+    }
+
+    def "P1C_4" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/P1C_4/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (1.1638541, 0.33219796, -2.6400542)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/P1C_4/Materials/defaultMaterial/Shader.outputs:surface>
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.9530847, 0.1454529, 0.14794154) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.36543572, 0.12668478, 0.10012296) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 1
+                    float inputs:roughness = 0.1
+                }
+            }
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (1.3999999, 0.19999999, 1.3999999)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, -0.22000003, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+    }
+
+    def "P1C_5" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/P1C_5/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (1.1638541, 0.33219796, -3.1543722)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/P1C_5/Materials/defaultMaterial/Shader.outputs:surface>
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.9530847, 0.1454529, 0.14794154) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.36543572, 0.12668478, 0.10012296) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 1
+                    float inputs:roughness = 0.1
+                }
+            }
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (1.3999999, 0.19999999, 1.3999999)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, -0.22000003, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+    }
+
+    def "P1C_6" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/P1C_6/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (1.1638541, 0.33219796, -1.3136123)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/P1C_6/Materials/defaultMaterial/Shader.outputs:surface>
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.9530847, 0.1454529, 0.14794154) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.36543572, 0.12668478, 0.10012296) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 1
+                    float inputs:roughness = 0.1
+                }
+            }
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (1.3999999, 0.19999999, 1.3999999)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, -0.22000003, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+    }
+
+    def "P1C_7" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/P1C_7/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (1.1638541, 0.33219796, -1.0827138)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/P1C_7/Materials/defaultMaterial/Shader.outputs:surface>
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.9530847, 0.1454529, 0.14794154) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.36543572, 0.12668478, 0.10012296) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 1
+                    float inputs:roughness = 0.1
+                }
+            }
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (1.3999999, 0.19999999, 1.3999999)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, -0.22000003, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+    }
+
+    def "P2C_1" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/P2C_1/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (-0.2806409, 0.32721284, -0.5006472)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/P2C_1/Materials/defaultMaterial/Shader.outputs:surface>
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.1626281, 0.21857607, 1) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.2737194, 0.2737194, 0.2737194) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 0
+                    float inputs:roughness = 0.4
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (1.3999999, 0.19999999, 1.3999999)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, -0.22000003, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+    }
+
+    def "P2C_2" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/P2C_2/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (-0.2806409, 0.32721284, -1.0171767)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/P2C_2/Materials/defaultMaterial/Shader.outputs:surface>
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.1626281, 0.21857607, 1) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.2737194, 0.2737194, 0.2737194) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 0
+                    float inputs:roughness = 0.4
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (1.3999999, 0.19999999, 1.3999999)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, -0.22000003, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+    }
+
+    def "P2C_3" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/P2C_3/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (-0.2806409, 0.32721284, -1.6188797)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/P2C_3/Materials/defaultMaterial/Shader.outputs:surface>
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.1626281, 0.21857607, 1) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.2737194, 0.2737194, 0.2737194) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 0
+                    float inputs:roughness = 0.4
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (1.3999999, 0.19999999, 1.3999999)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, -0.22000003, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+    }
+
+    def "P2C_4" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/P2C_4/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (-0.2806409, 0.32721284, -1.3844501)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/P2C_4/Materials/defaultMaterial/Shader.outputs:surface>
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.1626281, 0.21857607, 1) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.2737194, 0.2737194, 0.2737194) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 0
+                    float inputs:roughness = 0.4
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (1.3999999, 0.19999999, 1.3999999)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, -0.22000003, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+    }
+
+    def "P2C_5" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/P2C_5/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (-0.2806409, 0.32721284, -2.5483465)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/P2C_5/Materials/defaultMaterial/Shader.outputs:surface>
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.1626281, 0.21857607, 1) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.2737194, 0.2737194, 0.2737194) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 0
+                    float inputs:roughness = 0.4
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (1.3999999, 0.19999999, 1.3999999)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, -0.22000003, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+    }
+
+    def "P2C_6" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/P2C_6/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (-0.2806409, 0.32721284, -3.2336144)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/P2C_6/Materials/defaultMaterial/Shader.outputs:surface>
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.1626281, 0.21857607, 1) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.2737194, 0.2737194, 0.2737194) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 0
+                    float inputs:roughness = 0.4
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (1.3999999, 0.19999999, 1.3999999)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, -0.22000003, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
+        }
+    }
+
+    def "P2C_7" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @normal_checker_v1.usdz@
+    )
+    {
+        rel material:binding = </Root/P2C_7/Materials/defaultMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.08, 0.08, 0.08)
+        float3 xformOp:translate = (-0.2806409, 0.32721284, -3.838431)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "defaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/P2C_7/Materials/defaultMaterial/Shader.outputs:surface>
+
+                over "Shader"
+                {
+                    color3f inputs:diffuseColor = (0.1626281, 0.21857607, 1) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.2737194, 0.2737194, 0.2737194) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 0
+                    float inputs:roughness = 0.4
+                }
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (1.3999999, 0.19999999, 1.3999999)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0, -0.22000003, 0)
+                }
+            }
+        }
+
+        def RealityKitComponent "RigidBody"
+        {
+            uniform token info:id = "RealityKit.RigidBody"
+
+            def RealityKitStruct "massFrame"
+            {
+                def RealityKitStruct "m_pose"
+                {
+                }
+            }
+
+            def RealityKitStruct "material"
+            {
+            }
+        }
+
+        def RealityKitComponent "MotionState"
+        {
+            uniform token info:id = "RealityKit.MotionState"
         }
     }
 }

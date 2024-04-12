@@ -77,26 +77,13 @@ extension Dice {
           continue
         }
         // Create the PointData for the loaded entity
-        let pointData = await PointData(point: point, position: point.position, count: 0)
-
-        // Add to P1Points in forward order
-        gameModel.p1Points.append(pointData)
+        let pointData = await PointData(
+          position: point.position, // Assuming position is a property of the entity
+          checkerEntities: [] // Start with no checkers on this point
+        )
+        gameModel.points.append(pointData)
       }
 
-      // For P2Points, load in reverse order
-      for idx in (1 ... 24).reversed() {
-        let pointName = "P_\(idx)"
-        guard let point = await scene.findEntity(named: pointName) else {
-          print("Failed to load Entity named \(pointName)")
-          continue
-        }
-
-        // Create the PointData for the loaded entity
-        let pointData = await PointData(point: point, position: point.position, count: 0)
-
-        // Add to P2Points in reverse order
-        gameModel.p2Points.append(pointData)
-      }
       guard let bar1 = await scene.findEntity(named: "P1Bar") else {
         print("Failed to load Entity named P1Bar")
         return
@@ -118,14 +105,6 @@ extension Dice {
       //        )
       //      }
       //
-      //      print("P2 Points:")
-      //      for pointData in gameModel.p2Points {
-      //        print(
-      //          "Entity Name: \(await pointData.point.name), Position: \(pointData.position), Count:
-      //          \(pointData.count),
-      //          Point/Blot: \(pointData.pb)"
-      //        )
-      //      }
     } catch {
       print("Failed to load point entities")
     }

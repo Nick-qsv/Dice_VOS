@@ -12,14 +12,8 @@ extension Dice {
   func handleTap(value: EntityTargetValue<TapGesture.Value>) {
     let entity = value.entity
     // Determine which player is interacting and call the appropriate function
-    if let _ = entity.components[Player1Component.self] {
-      gameModel.handleCheckerMove(for: .player1, at: entity)
-    } else if let _ = entity.components[Player2Component.self] {
-      gameModel.handleCheckerMove(for: .player2, at: entity)
+    if let playerComponent = entity.components[PlayerComponent.self] {
+      gameModel.handleCheckerMove(for: playerComponent.owner, at: entity)
     }
   }
 }
-
-struct CheckerComponent: Component {}
-struct Player1Component: Component {}
-struct Player2Component: Component {}

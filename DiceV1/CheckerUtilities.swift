@@ -14,24 +14,60 @@ extension Dice {
     do {
       let scene = try await Entity(named: "Scene", in: realityKitContentBundle)
       print("Scene loaded successfully")
-      guard let check1 = await scene.findEntity(named: "CheckerP1") else {
-        print("Faile to load checker 1")
-        return
+      // Arrays to store initialized CheckerData
+      var player1Checkers: [CheckerData] = []
+      var player2Checkers: [CheckerData] = []
+
+      // Load and initialize Player 1's checkers
+      for idx in 1 ... 7 {
+        let checkerName = "P1C_\(idx)"
+        if let checkerEntity = await scene.findEntity(named: checkerName) {
+          await checkerEntity.components.set(PlayerComponent(owner: .player1))
+          content.add(checkerEntity)
+
+          let checkerData = CheckerData(
+            id: UUID(),
+            physicalEntity: checkerEntity,
+            currentPosition: 0, // Set initial position based on your game logic
+            previousPosition: nil,
+            isOnBar: false,
+            isBorneOff: false,
+            owner: .player1
+          )
+          player1Checkers.append(checkerData)
+        } else {
+          print("Failed to load \(checkerName)")
+        }
       }
-      await check1.components.set(CheckerComponent())
-      await check1.components.set(Player1Component())
-      content.add(check1)
-      p1C = check1
-      guard let check2 = await scene.findEntity(named: "CheckerP2") else {
-        print("Faile to load checker 2")
-        return
+
+      // Load and initialize Player 2's checkers
+      for idx in 1 ... 7 {
+        let checkerName = "P2C_\(idx)"
+        if let checkerEntity = await scene.findEntity(named: checkerName) {
+          await checkerEntity.components.set(PlayerComponent(owner: .player2))
+          content.add(checkerEntity)
+
+          let checkerData = CheckerData(
+            id: UUID(),
+            physicalEntity: checkerEntity,
+            currentPosition: 0, // Set initial position based on your game logic
+            previousPosition: nil,
+            isOnBar: false,
+            isBorneOff: false,
+            owner: .player2
+          )
+          player2Checkers.append(checkerData)
+        } else {
+          print("Failed to load \(checkerName)")
+        }
       }
-      await check2.components.set(CheckerComponent())
-      await check2.components.set(Player2Component())
-      content.add(check2)
-      p2C = check2
+
+      // Assuming you have a way to store or use these checker arrays within your game model
+      // gameModel.player1Checkers = player1Checkers
+      // gameModel.player2Checkers = player2Checkers
+
     } catch {
-      print("Failed to load Checkers")
+      print("Failed to load checkers due to error: \(error)")
     }
   }
 }

@@ -20,6 +20,7 @@
 		658DF3492BC0A86900E27379 /* BoardUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658DF3482BC0A86900E27379 /* BoardUtilities.swift */; };
 		658DF34B2BC5A49F00E27379 /* CheckerGestureHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658DF34A2BC5A49F00E27379 /* CheckerGestureHandling.swift */; };
 		658DF34D2BC6F84400E27379 /* CheckerUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658DF34C2BC6F84400E27379 /* CheckerUtilities.swift */; };
+		658DF34F2BC9F42B00E27379 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658DF34E2BC9F42B00E27379 /* GameManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		658DF3482BC0A86900E27379 /* BoardUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardUtilities.swift; sourceTree = "<group>"; };
 		658DF34A2BC5A49F00E27379 /* CheckerGestureHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckerGestureHandling.swift; sourceTree = "<group>"; };
 		658DF34C2BC6F84400E27379 /* CheckerUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckerUtilities.swift; sourceTree = "<group>"; };
+		658DF34E2BC9F42B00E27379 /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 				655090232B965F3700069E13 /* DiceV1App.swift */,
 				6550906F2B9D298300069E13 /* Dice.swift */,
 				658DF3462BBEFB0800E27379 /* GameModel.swift */,
+				658DF34E2BC9F42B00E27379 /* GameManager.swift */,
 				658DF34A2BC5A49F00E27379 /* CheckerGestureHandling.swift */,
 				65366AEE2BB1CCC0002A0848 /* DiceGestureHandling.swift */,
 				65366AF02BB1CE91002A0848 /* DiceUtilities.swift */,
@@ -277,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				658DF34B2BC5A49F00E27379 /* CheckerGestureHandling.swift in Sources */,
+				658DF34F2BC9F42B00E27379 /* GameManager.swift in Sources */,
 				65366AEF2BB1CCC0002A0848 /* DiceGestureHandling.swift in Sources */,
 				655090702B9D298300069E13 /* Dice.swift in Sources */,
 				65366AF12BB1CE91002A0848 /* DiceUtilities.swift in Sources */,

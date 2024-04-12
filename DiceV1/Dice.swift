@@ -23,7 +23,6 @@ struct Dice: View {
   @State var collisionSubscription: EventSubscription?
   @State var resultSubscription: EventSubscription?
   @State var chaseSubscription: EventSubscription?
-
   @State private var floor: Entity? // State variable for the floor entity
   @State var diceMP3: AudioFileResource?
   @State var leftDieAudioController: AudioPlaybackController?

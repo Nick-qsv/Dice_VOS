@@ -19,9 +19,7 @@ class GameModel {
   var gameState = GameState.mainMenu
   var bar: [TurnState: Int] = [.player1: 0, .player2: 0] // Checkers on the bar
   var borneOff: [TurnState: Int] = [.player1: 0, .player2: 0] // Checkers borne off
-  var p1Points: [PointData] = [] // Assuming you need an array of points for player 1
-  var p2Points: [PointData] = []
-  var checkers: [CheckerData] = []
+  var points: [PointData] = [] // Assuming you need an array of points for player 1
   var p1BarPosition = BarPoint(point: Entity(), position: SIMD3<Float>(0, 0, 0))
   var p2BarPosition = BarPoint(point: Entity(), position: SIMD3<Float>(0, 0, 0))
   func toggleGameState() {
@@ -101,35 +99,38 @@ class GameModel {
   // Opening Position (eventually)
 }
 
-enum TurnState {
-  case player1
-  case player2
-}
-
 enum GameState {
   case mainMenu
   case playing
 }
 
-enum PointBlot {
-  case point
+enum PointBlot: Codable {
+  case madePoint
   case blot
-  case empty
+  case emptyPoint
 }
 
 // Define a struct to represent an entity, its position, and count
 struct PointData {
-  var point: Entity
-  var position: SIMD3<Float>
-  var count: Int
-  var owner: TurnState? // Owner of the checkers at this point, nil if empty
+  let position: SIMD3<Float> // 3D position of the point
+  var checkerEntities: [CheckerData] // Array to store checker entities at this point
+  var count: Int {
+    return checkerEntities.count
+  }
+
+  var owner: TurnState? { // Determine the owner based on the first checker, if any
+    guard let firstChecker = checkerEntities.first else { return nil }
+    return firstChecker.physicalEntity.components[PlayerComponent.self]?.owner
+  }
+
   var pbe: PointBlot {
-    if count == 0 {
-      return .empty
-    } else if count == 1 {
+    switch checkerEntities.count {
+    case 0:
+      return .emptyPoint
+    case 1:
       return .blot
-    } else {
-      return .point
+    default:
+      return .madePoint
     }
   }
 }
@@ -140,10 +141,20 @@ struct BarPoint {
 }
 
 struct CheckerData {
-  var checker: Entity
+  let id: UUID // Unique identifier for each checker
+  let physicalEntity: Entity
   var currentPosition: Int // Current position index in the points array
   var previousPosition: Int? // Previous position index in the points array before the move
   var isOnBar: Bool
-  var isBornOff: Bool
-  var owner: TurnState
+  var isBorneOff: Bool
+  let owner: TurnState
+}
+
+struct PlayerComponent: Component, Codable {
+  let owner: TurnState
+}
+
+enum TurnState: Codable {
+  case player1
+  case player2
 }
