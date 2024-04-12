@@ -77,7 +77,7 @@ extension Dice {
           continue
         }
         // Create the PointData for the loaded entity
-        let pointData = await PointData(point: point, position: point.position, count: 0, pbe: .empty)
+        let pointData = await PointData(point: point, position: point.position, count: 0)
 
         // Add to P1Points in forward order
         gameModel.p1Points.append(pointData)
@@ -92,7 +92,7 @@ extension Dice {
         }
 
         // Create the PointData for the loaded entity
-        let pointData = await PointData(point: point, position: point.position, count: 0, pbe: .empty)
+        let pointData = await PointData(point: point, position: point.position, count: 0)
 
         // Add to P2Points in reverse order
         gameModel.p2Points.append(pointData)
@@ -101,13 +101,13 @@ extension Dice {
         print("Failed to load Entity named P1Bar")
         return
       }
-      gameModel.p1Bar = await BarPoint(point: bar1, position: bar1.position, count: 0)
+      gameModel.p1BarPosition = await BarPoint(point: bar1, position: bar1.position)
 
       guard let bar2 = await scene.findEntity(named: "P2Bar") else {
         print("Failed to load Entity named P2Bar")
         return
       }
-      gameModel.p2Bar = await BarPoint(point: bar2, position: bar2.position, count: 0)
+      gameModel.p2BarPosition = await BarPoint(point: bar2, position: bar2.position)
 
       //      print("P1 Points:")
       //      for pointData in gameModel.p1Points {

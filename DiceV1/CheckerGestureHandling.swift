@@ -11,19 +11,11 @@ import SwiftUI
 extension Dice {
   func handleTap(value: EntityTargetValue<TapGesture.Value>) {
     let entity = value.entity
-
-    switch gameModel.turnState {
-    case .player1:
-      guard entity.components[Player1Component.self] != nil else {
-        return // Entity does not have the Player1Component
-      }
-      print("Player 1 entity tapped")
-
-    case .player2:
-      guard entity.components[Player2Component.self] != nil else {
-        return // Entity does not have the Player2Component
-      }
-      print("Player 2 entity tapped")
+    // Determine which player is interacting and call the appropriate function
+    if let _ = entity.components[Player1Component.self] {
+      gameModel.handleCheckerMove(for: .player1, at: entity)
+    } else if let _ = entity.components[Player2Component.self] {
+      gameModel.handleCheckerMove(for: .player2, at: entity)
     }
   }
 }
