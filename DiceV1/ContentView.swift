@@ -10,11 +10,12 @@ import RealityKitContent
 import SwiftUI
 
 struct ContentView: View {
-  @State private var showImmersiveSpace = false
-  @State private var immersiveSpaceIsShown = false
+  @State private var volumeIsShown = false
+  @State private var showVolume = false
 
-  @Environment(\.openImmersiveSpace) var openImmersiveSpace
-  @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
+  @Environment(\.dismissWindow) var dismissWindow
+  @Environment(\.openWindow) var openWindow
+
   var gameModel: GameModel
 
   var body: some View {
@@ -47,34 +48,24 @@ struct ContentView: View {
           .cornerRadius(10)
         }
       }
-      Toggle(gameModel.gameState == .playing ? "End the Game" : "Start the Game", isOn: $showImmersiveSpace)
+      Toggle(gameModel.gameState == .playing ? "End the Game" : "Start the Game", isOn: $showVolume)
         .toggleStyle(.button)
         .padding(.top, 50)
     }
     .padding()
-    .onChange(of: showImmersiveSpace) { _, newValue in
+    .onChange(of: showVolume) { _, newValue in
       print("Toggle changed: \(newValue)")
       gameModel.toggleGameState()
       gameModel.turnState = .player1
-      Task {
-        if newValue {
-          print("Attempting to open immersive space")
-          switch await openImmersiveSpace(id: "die") {
-          case .opened:
-            immersiveSpaceIsShown = true
-            print("Immersive space opened")
-          case .error, .userCancelled:
-            fallthrough
-          @unknown default:
-            immersiveSpaceIsShown = false
-            showImmersiveSpace = false
-          }
-        } else if immersiveSpaceIsShown {
-          print("Attempting to dismiss immersive space")
-          await dismissImmersiveSpace()
-          immersiveSpaceIsShown = false
-          gameModel.rolled = false
-        }
+      if newValue {
+        print("Attempting to open volume")
+        openWindow(id: "die")
+        volumeIsShown = true // Assuming the volume opens without a specific opened case
+        print("Volume opened")
+      } else if volumeIsShown {
+        print("Attempting to dismiss volume")
+        dismissWindow(id: "die")
+        volumeIsShown = false
       }
     }
   }

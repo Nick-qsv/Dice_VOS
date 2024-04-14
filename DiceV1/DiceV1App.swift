@@ -14,8 +14,9 @@ struct DiceV1App: App {
     WindowGroup {
       ContentView(gameModel: gameModel)
     }.defaultSize(width: 1200, height: 500)
-    ImmersiveSpace(id: "die") {
+    WindowGroup(id: "die") {
       Dice(gameModel: gameModel)
-    }
+    }.windowStyle(.volumetric)
+      .defaultSize(width: 2, height: 0.2, depth: 2, in: .meters)
   }
 }
