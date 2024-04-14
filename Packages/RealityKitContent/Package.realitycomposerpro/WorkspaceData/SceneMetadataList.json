@@ -4,7 +4,7 @@
       [
         "0A9B4653-B11E-4D6A-850E-C6FCB621626C",
         "Root",
-        "Sphere"
+        "GridMaterial"
       ],
       {
         "isExpanded" : true,
@@ -21,7 +21,7 @@
       [
         "0A9B4653-B11E-4D6A-850E-C6FCB621626C",
         "Root",
-        "GridMaterial"
+        "Sphere"
       ],
       {
         "isExpanded" : true,
@@ -44,8 +44,27 @@
       [
         "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
         "Root",
-        "checker_chrome_vTEST",
+        "chrome_checker",
         "Materials"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
+        "Root",
+        "checker_chrome_vTEST2",
+        "Materials"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
+        "Root",
+        "board_vc3"
       ],
       {
         "isExpanded" : true,
@@ -56,39 +75,6 @@
         "Root",
         "Right_Die",
         "Dice_Audio"
-      ],
-      {
-        "isExpanded" : false,
-        "isLocked" : false,
-        "selectedAudioFilePrim" : {
-          "string" : "\/Root\/Jet_1"
-        }
-      },
-      [
-        "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
-        "Root",
-        "Left_Die",
-        "SpatialAudio"
-      ],
-      {
-        "isExpanded" : false,
-        "isLocked" : false,
-        "selectedAudioFilePrim" : {
-          "string" : "\/Root\/Jet_1"
-        }
-      },
-      [
-        "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
-        "Root"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
-        "Root",
-        "SpatialAudio"
       ],
       {
         "isExpanded" : false,
@@ -112,15 +98,33 @@
       },
       [
         "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
+        "Root"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
+        "Root",
+        "checker_chrome_vTEST",
+        "Materials"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
         "Root",
         "Left_Die",
-        "LeftDieAud"
+        "SpatialAudio"
       ],
       {
         "isExpanded" : false,
         "isLocked" : false,
         "selectedAudioFilePrim" : {
-          "string" : "\/Root\/JetOne"
+          "string" : "\/Root\/Jet_1"
         }
       },
       [
@@ -138,12 +142,27 @@
       [
         "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
         "Root",
-        "chrome_checker",
-        "Materials"
+        "SpatialAudio"
       ],
       {
-        "isExpanded" : true,
-        "isLocked" : false
+        "isExpanded" : false,
+        "isLocked" : false,
+        "selectedAudioFilePrim" : {
+          "string" : "\/Root\/Jet_1"
+        }
+      },
+      [
+        "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
+        "Root",
+        "Left_Die",
+        "LeftDieAud"
+      ],
+      {
+        "isExpanded" : false,
+        "isLocked" : false,
+        "selectedAudioFilePrim" : {
+          "string" : "\/Root\/JetOne"
+        }
       },
       [
         "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
@@ -156,16 +175,6 @@
         "selectedAudioFilePrim" : {
           "string" : "\/Root\/Jet_1"
         }
-      },
-      [
-        "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
-        "Root",
-        "checker_chrome_vTEST2",
-        "Materials"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
       },
       [
         "26DBAE76-5DD8-47B6-A085-1B4ADA111097",

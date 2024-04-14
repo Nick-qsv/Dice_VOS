@@ -63,11 +63,42 @@ extension Dice {
       }
 
       // Assuming you have a way to store or use these checker arrays within your game model
-      // gameModel.player1Checkers = player1Checkers
-      // gameModel.player2Checkers = player2Checkers
+      gameModel.player1Checkers = player1Checkers
+      gameModel.player2Checkers = player2Checkers
 
     } catch {
       print("Failed to load checkers due to error: \(error)")
+    }
+  }
+
+  func setUpInitialBoard() {
+    // Ensure there are enough points to place checkers
+    if gameModel.points.count >= 24 {
+      // Set up for Player 1
+      placeCheckers(playerCheckers: gameModel.player1Checkers, pointIndex: 0, count: 2)
+      placeCheckers(playerCheckers: gameModel.player1Checkers, pointIndex: 1, count: 5)
+
+      // Set up for Player 2
+      placeCheckers(playerCheckers: gameModel.player2Checkers, pointIndex: 23, count: 3)
+      placeCheckers(playerCheckers: gameModel.player2Checkers, pointIndex: 22, count: 4)
+    } else {
+      print("Points array not fully initialized.")
+    }
+  }
+
+  func placeCheckers(playerCheckers: [CheckerData], pointIndex: Int, count: Int) {
+    // Calculate the number of checkers to place based on available checkers
+    let maxCount = min(count, playerCheckers.count)
+    for idx in 0 ..< maxCount {
+      let checker = playerCheckers[idx] // Directly access the checker
+//            let offset = Float(idx) * 0.5  // Offset each checker by 0.5 on the x-axis
+      var newPosition = gameModel.points[pointIndex].position
+      print("Checker placed at \(newPosition)")
+//            newPosition.x += offset
+
+      checker.currentPosition = pointIndex
+      checker.physicalEntity.position = newPosition
+      gameModel.points[pointIndex].checkerEntities.append(checker)
     }
   }
 }

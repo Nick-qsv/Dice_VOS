@@ -66,7 +66,7 @@ extension Dice {
     ])
   }
 
-  func preloadPointArray() async {
+  func preloadPointArray(with content: RealityViewContent) async {
     do {
       let scene = try await Entity(named: "Scene", in: realityKitContentBundle)
       print("Scene for Points loaded successfully")
@@ -76,12 +76,19 @@ extension Dice {
           print("Failed to load Entity named \(pointName)")
           continue
         }
-        // Create the PointData for the loaded entity
-        let pointData = await PointData(
-          position: point.position, // Assuming position is a property of the entity
+        // Convert the local position to a global position
+        let globalPosition = await point.position
+
+        print("Loaded \(pointName) at global position \(globalPosition)") // Print the global position to verify
+        let pointData = PointData(
+          position: globalPosition, // Use the global position for your PointData
           checkerEntities: [] // Start with no checkers on this point
         )
         gameModel.points.append(pointData)
+        // Visual debugging: place a visual marker at each point's global position
+//        await MainActor.run {
+//          addVisualMarker(at: globalPosition, with: content)
+//        }
       }
 
       guard let bar1 = await scene.findEntity(named: "P1Bar") else {
@@ -96,17 +103,21 @@ extension Dice {
       }
       gameModel.p2BarPosition = await BarPoint(point: bar2, position: bar2.position)
 
-      //      print("P1 Points:")
-      //      for pointData in gameModel.p1Points {
-      //        print(
-      //          "Entity Name: \(await pointData.point.name), Position: \(pointData.position), Count:
-      //          \(pointData.count),
-      //          Point/Blot: \(pointData.pb)"
-      //        )
-      //      }
-      //
     } catch {
       print("Failed to load point entities")
     }
+  }
+
+  @MainActor func addVisualMarker(at position: SIMD3<Float>, with content: RealityViewContent) {
+    // Create the mesh
+    let mesh = MeshResource.generateSphere(radius: 0.02)
+
+    // Create the material
+    let material = SimpleMaterial(color: .red, isMetallic: false)
+
+    // Create the model entity with the mesh and material
+    let marker = ModelEntity(mesh: mesh, materials: [material])
+    marker.position = position
+    content.add(marker)
   }
 }

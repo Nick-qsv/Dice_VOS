@@ -40,6 +40,7 @@ struct ContentView: View {
             gameModel.turnState = gameModel.turnState == .player1 ? .player2 : .player1
             gameModel.rolled = false
             gameModel.rollCount = 0
+            gameModel.ranAlready = true
           }
           .foregroundColor(.white)
           .padding()

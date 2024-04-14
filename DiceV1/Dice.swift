@@ -35,10 +35,11 @@ struct Dice: View {
       setupFloor(in: content)
       await loadAndConfigureDice(in: content)
       await preloadAudioAndEntities(leftDie: leftDie, rightDie: rightDie)
-      await preloadPointArray()
+      await preloadPointArray(with: content)
       await loadBoard(in: content)
       await loadAndConfigureCheckers(in: content)
       setupBoardCollision(board)
+      setUpInitialBoard()
       collisionSubscription = content.subscribe(to: CollisionEvents.Began.self, on: nil) { event in
         Task {
           handleCollisionStart(for: event)
@@ -55,11 +56,12 @@ struct Dice: View {
             simd_length(motionLeft.angularVelocity) <= 0.01 &&
             simd_length(motionRight.angularVelocity) <= 0.01
 
-          if isStationary {
+          if isStationary && gameModel.ranAlready {
             print("Updating die state")
             updateDieState(leftDie!, isLeft: true)
             updateDieState(rightDie!, isLeft: false)
             gameModel.rolled = true
+            gameModel.ranAlready = false
           }
         }
       }
